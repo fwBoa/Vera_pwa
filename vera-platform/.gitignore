@@ -1,44 +1,75 @@
-# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
-# compiled output
+# Compiled output
 dist
 tmp
 out-tsc
+build
 
-# dependencies
+# Dependencies
 node_modules
+package-lock.json # Optional: remove this line if you want to track lock files
+yarn.lock
+pnpm-lock.yaml
+
+# Environment variables (CRITICAL - Never commit these!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# Nx
+.nx/cache
+.nx/workspace-data
+
+# Angular
+.angular
+.angular/cache
+
+# Testing
+/coverage
+*.spec.ts.snap
+e2e/cypress/videos
+e2e/cypress/screenshots
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
 
 # IDEs and editors
-/.idea
+.idea
 .project
 .classpath
 .c9/
 *.launch
 .settings/
 *.sublime-workspace
+*.sublime-project
+.vscode/
+.history/
 
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
-# misc
-/.sass-cache
+# Misc
+.sass-cache
 /connect.lock
-/coverage
 /libpeerconnection.log
-npm-debug.log
-yarn-error.log
 testem.log
 /typings
 
 # System Files
 .DS_Store
 Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.swp
+*.swo
+*~
 
-.nx/cache
-.nx/workspace-data
-.cursor/rules/nx-rules.mdc
-.github/instructions/nx.instructions.md
+# Optional: Nx/Angular specific
+.cursor/
+.github/instructions/

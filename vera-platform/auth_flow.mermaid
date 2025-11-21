@@ -1,0 +1,35 @@
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as API Proxy (Node.js)
+    participant Auth as AuthService
+    participant JWT as JWT Library
+
+    Note over Client, API: 1. Tentative de Connexion
+    Client->>API: POST /api/auth/login {username, password}
+    API->>Auth: login(username, password)
+    
+    alt Identifiants Valides
+        Auth->>JWT: sign({username, role}, SECRET)
+        JWT-->>Auth: Token (eyJ...)
+        Auth-->>API: { token: "eyJ..." }
+        API-->>Client: 200 OK { token: "eyJ..." }
+    else Identifiants Invalides
+        Auth-->>API: null
+        API-->>Client: 401 Unauthorized
+    end
+
+    Note over Client, API: 2. Accès à une Route Protégée
+    Client->>API: GET /api/admin/dashboard (Header: Bearer eyJ...)
+    API->>Auth: verifyToken(token)
+    
+    alt Token Valide
+        Auth->>JWT: verify(token, SECRET)
+        JWT-->>Auth: Payload {username: "admin"}
+        Auth-->>API: User Data
+        API-->>Client: 200 OK (Données Dashboard)
+    else Token Invalide / Manquant
+        Auth-->>API: null
+        API-->>Client: 403 Forbidden
+    end
+```
