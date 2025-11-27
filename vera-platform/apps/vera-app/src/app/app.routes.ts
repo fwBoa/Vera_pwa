@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { FactCheckComponent } from './fact-check/fact-check.component';
 import { authGuard } from './admin/auth.guard';
 
 export const appRoutes: Route[] = [
@@ -10,5 +11,10 @@ export const appRoutes: Route[] = [
         component: AdminDashboardComponent,
         canActivate: [authGuard]
     },
-    { path: '', redirectTo: 'admin/login', pathMatch: 'full' }, // Temporary redirect
+    {
+        path: 'fact-check',
+        component: FactCheckComponent,
+        canActivate: [authGuard]
+    },
+    { path: '', redirectTo: 'fact-check', pathMatch: 'full' },
 ];

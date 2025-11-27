@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-admin-login',
@@ -15,7 +16,12 @@ export class AdminLoginComponent {
     loginForm: FormGroup;
     errorMessage: string = '';
 
-    constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
+    constructor(
+        private fb: FormBuilder,
+        private http: HttpClient,
+        private router: Router,
+        private authService: AuthService
+    ) {
         this.loginForm = this.fb.group({
             username: ['', Validators.required],
             password: ['', Validators.required],
@@ -26,8 +32,8 @@ export class AdminLoginComponent {
         if (this.loginForm.valid) {
             this.http.post<{ token: string }>('/api/auth/login', this.loginForm.value).subscribe({
                 next: (response) => {
-                    localStorage.setItem('token', response.token);
-                    this.router.navigate(['/admin/dashboard']); // We will create this next
+                    this.authService.setToken(response.token);
+                    this.router.navigate(['/fact-check']);
                 },
                 error: (err) => {
                     this.errorMessage = 'Invalid credentials';

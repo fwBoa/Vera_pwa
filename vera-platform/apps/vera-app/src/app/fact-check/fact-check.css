@@ -1,0 +1,59 @@
+/* Streaming text animation */
+.streaming-text {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Cursor blink animation */
+.cursor-blink {
+    animation: blink 1s step-end infinite;
+    color: #4f46e5;
+    font-weight: bold;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Prose styling for better readability */
+.prose {
+    line-height: 1.8;
+}
+
+.prose p {
+    margin-bottom: 1rem;
+}
+
+.prose strong {
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.prose ul,
+.prose ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.prose li {
+    margin-bottom: 0.5rem;
+}
