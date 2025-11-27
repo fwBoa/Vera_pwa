@@ -13,8 +13,8 @@ export const appRoutes: Route[] = [
     },
     {
         path: 'fact-check',
-        component: FactCheckComponent,
-        canActivate: [authGuard]
+        component: FactCheckComponent
+        // Pas d'authGuard - accès public
     },
     { path: '', redirectTo: 'fact-check', pathMatch: 'full' },
 ];
