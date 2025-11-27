@@ -4,39 +4,65 @@ import axios from 'axios';
 const router = Router();
 
 router.post('/analyze', async (req: Request, res: Response) => {
-  const { url } = req.body;
+  const { userId, query } = req.body;
 
-  if (!url) {
-    return res.status(400).json({ error: 'URL is required' });
+  // Validate request body
+  if (!userId || !query) {
+    return res.status(400).json({ error: 'userId and query are required' });
   }
 
-  const apiUrl = process.env.X_API_URL;
-  const apiKey = process.env.X_API_KEY;
+  const apiUrl = process.env.VERA_API_URL;
+  const apiKey = process.env.VERA_API_KEY;
 
   if (!apiUrl || !apiKey) {
-    console.error('Missing configuration: X_API_URL or X_API_KEY');
+    console.error('Missing configuration: VERA_API_URL or VERA_API_KEY');
     return res.status(500).json({ error: 'Server configuration error' });
   }
 
   try {
+    // Make request to Vera API with streaming response
     const response = await axios.post(
-      `${apiUrl}/analyze`, // Assuming the endpoint is /analyze, adjusting if needed based on VERA API
-      { url },
+      apiUrl,
+      { userId, query },
       {
         headers: {
           'X-API-Key': apiKey,
           'Content-Type': 'application/json',
         },
+        responseType: 'stream', // Enable streaming
       }
     );
 
-    return res.json(response.data);
+    // Set headers for streaming text response
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Transfer-Encoding', 'chunked');
+
+    // Pipe the streaming response directly to the client
+    response.data.pipe(res);
+
+    // Handle stream errors
+    response.data.on('error', (error: Error) => {
+      console.error('Stream error:', error);
+      if (!res.headersSent) {
+        res.status(500).json({ error: 'Stream error occurred' });
+      }
+    });
+
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error('Upstream API error:', error.message);
-      const status = error.response?.status || 502;
+      const status = error.response?.status || 500;
+      const statusMessages: Record<number, string> = {
+        401: 'Missing or invalid API key',
+        403: 'Partner account disabled',
+        422: 'Invalid request body',
+        429: 'Rate limit exceeded',
+        500: 'Vera API internal server error',
+      };
+
+      console.error('Vera API error:', error.message, 'Status:', status);
+
       return res.status(status).json({
-        error: 'Error communicating with VERA API',
+        error: statusMessages[status] || 'Error communicating with Vera API',
         details: error.response?.data,
       });
     }
