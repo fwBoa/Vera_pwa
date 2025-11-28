@@ -20,6 +20,10 @@ pnpm-lock.yaml
 .env.production.local
 .env*.local
 
+# Google Service Account Credentials
+google-credentials.json
+**/google-credentials.json
+
 # Nx
 .nx/cache
 .nx/workspace-data
