@@ -1,12 +1,12 @@
 /* Streaming text animation */
 .streaming-text {
-    animation: fadeIn 0.3s ease-in;
+    animation: fadeIn 0.4s ease-out;
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(4px);
     }
 
     to {
@@ -17,9 +17,10 @@
 
 /* Cursor blink animation */
 .cursor-blink {
-    animation: blink 1s step-end infinite;
-    color: #4f46e5;
-    font-weight: bold;
+    animation: blink 1.2s step-end infinite;
+    color: #4F46E5;
+    font-weight: 600;
+    margin-left: 2px;
 }
 
 @keyframes blink {
@@ -34,26 +35,49 @@
     }
 }
 
-/* Prose styling for better readability */
+/* Enhanced prose styling */
 .prose {
-    line-height: 1.8;
+    line-height: 1.75;
+    color: #374151;
 }
 
 .prose p {
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
 }
 
 .prose strong {
-    color: #1f2937;
+    color: #111827;
     font-weight: 700;
 }
 
 .prose ul,
 .prose ol {
-    margin-left: 1.5rem;
-    margin-bottom: 1rem;
+    margin-left: 1.75rem;
+    margin-bottom: 1.25rem;
 }
 
 .prose li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.prose h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Smooth hover transitions */
+button,
+a,
+input,
+textarea {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus states */
+textarea:focus,
+input:focus {
+    transform: translateY(-1px);
 }
