@@ -15,10 +15,11 @@
     }
 }
 
-/* Cursor blink animation */
+/* Cursor blink animation with Vera dark color */
 .cursor-blink {
     animation: blink 1.2s step-end infinite;
-    color: #4F46E5;
+    color: #2D2D2D;
+    /* Vera dark */
     font-weight: 600;
     margin-left: 2px;
 }
@@ -35,10 +36,11 @@
     }
 }
 
-/* Enhanced prose styling */
+/* Enhanced prose styling with Vera colors */
 .prose {
     line-height: 1.75;
-    color: #374151;
+    color: #2D2D2D;
+    /* Vera dark */
 }
 
 .prose p {
@@ -46,7 +48,7 @@
 }
 
 .prose strong {
-    color: #111827;
+    color: #2D2D2D;
     font-weight: 700;
 }
 
@@ -63,7 +65,7 @@
 .prose h3 {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #111827;
+    color: #2D2D2D;
     margin-top: 1.5rem;
     margin-bottom: 1rem;
 }
@@ -76,7 +78,7 @@ textarea {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Focus states */
+/* Focus states with Vera green */
 textarea:focus,
 input:focus {
     transform: translateY(-1px);

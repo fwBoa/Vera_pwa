@@ -2,27 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Amélioration des polices globales */
+/* Import Google Fonts - Montserrat comme alternative à Lastik/Fustat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+/* Configuration de base avec les polices Vera */
 @layer base {
     html {
-        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
 
     body {
         @apply text-gray-900;
+        background-color: #FEF2E4;
+        /* Beige Vera */
     }
 }
 
-/* Variables globales - Palette AskVera */
+/* Variables globales - Palette officielle AskVera */
 :root {
-    --primary-indigo: #4F46E5;
-    --primary-violet: #7C3AED;
-    --text-primary: #111827;
-    --text-secondary: #6B7280;
-    --bg-primary: #FFFFFF;
-    --bg-secondary: #F9FAFB;
+    /* Couleurs principales du brand kit */
+    --vera-beige: #FEF2E4;
+    /* Fond principal */
+    --vera-green: #DBF9BE;
+    /* Accents verts */
+    --vera-pink: #FFD5D8;
+    /* Accents roses */
+    --vera-blue: #B4D2FF;
+    /* Accents bleus */
+
+    /* Couleurs utilitaires */
+    --vera-dark: #2D2D2D;
+    /* Texte foncé */
+    --vera-gray: #5A5A5A;
+    /* Texte secondaire */
+    --vera-white: #FFFFFF;
+    /* Blanc pur */
+}
+
+/* Classes utilitaires Vera */
+@layer utilities {
+    .bg-vera-beige {
+        background-color: var(--vera-beige);
+    }
+
+    .bg-vera-green {
+        background-color: var(--vera-green);
+    }
+
+    .bg-vera-pink {
+        background-color: var(--vera-pink);
+    }
+
+    .bg-vera-blue {
+        background-color: var(--vera-blue);
+    }
+
+    .text-vera-dark {
+        color: var(--vera-dark);
+    }
+
+    .text-vera-gray {
+        color: var(--vera-gray);
+    }
 }
 
 /* Optimisation des performances */
