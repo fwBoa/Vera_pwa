@@ -40,6 +40,26 @@ router.post('/analyze', async (req: Request, res: Response) => {
     // Pipe the streaming response directly to the client
     response.data.pipe(res);
 
+    // Accumulate response for saving to Supabase
+    let fullResponse = '';
+    response.data.on('data', (chunk: Buffer) => {
+      fullResponse += chunk.toString();
+    });
+
+    response.data.on('end', async () => {
+      try {
+        // Lazy load Supabase service to avoid startup crashes
+        const { SupabaseService } = require('../services/supabase.service');
+        const supabaseService = new SupabaseService();
+
+        await supabaseService.saveFactCheck(userId, query, fullResponse);
+        console.log('[Analyze] Fact-check saved to Supabase');
+      } catch (err) {
+        console.error('[Analyze] Error saving to Supabase:', err);
+        // Don't fail the request since the stream is already sent
+      }
+    });
+
     // Handle stream errors
     response.data.on('error', (error: Error) => {
       console.error('Stream error:', error);

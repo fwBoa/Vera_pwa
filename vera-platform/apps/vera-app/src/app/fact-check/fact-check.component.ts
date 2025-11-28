@@ -36,12 +36,8 @@ export class FactCheckComponent implements OnDestroy {
             return;
         }
 
-        const userId = this.authService.getUserId();
-        if (!userId) {
-            this.errorMessage = 'User not authenticated';
-            this.authService.logout();
-            return;
-        }
+        // Utiliser le userId authentifié ou "guest" par défaut
+        const userId = this.authService.getUserId() || 'guest';
 
         this.isLoading = true;
         this.result = '';
@@ -69,6 +65,10 @@ export class FactCheckComponent implements OnDestroy {
 
     logout() {
         this.authService.logout();
+    }
+
+    get isAuthenticated(): boolean {
+        return this.authService.isAuthenticated();
     }
 
     clearResult() {

@@ -1,150 +1,150 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-    <!-- Navigation Bar -->
-    <nav class="bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center space-x-3">
-                    <div
-                        class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
-                            </path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-bold text-gray-900">Vera Platform</h1>
-                        <p class="text-xs text-gray-500">AI-Powered Fact Checking</p>
-                    </div>
+<div class="min-h-screen bg-vera-beige">
+    <!-- Clean Navigation with Vera colors -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo Vera -->
+                <div class="flex items-center">
+                    <img src="/logos/Logo/size=M, color=black.png" alt="Vera" class="h-8">
                 </div>
-                <button (click)="logout()"
-                    class="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
-                    <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
-                        </path>
-                    </svg>
-                    Logout
+
+                <!-- Auth Button -->
+                <button *ngIf="isAuthenticated" (click)="logout()"
+                    class="px-5 py-2.5 text-sm font-medium text-vera-dark hover:bg-gray-50 rounded-lg transition-colors border border-gray-200">
+                    Se déconnecter
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <!-- Header Section -->
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold text-gray-900 mb-4">Verify Any Claim</h2>
-            <p class="text-lg text-gray-600">Enter a statement or question below to get AI-powered fact-checking</p>
+    <!-- Hero Section with Vera beige background -->
+    <div class="bg-vera-beige py-16 sm:py-24">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-vera-dark mb-6 leading-tight">
+                Vérifiez n'importe quelle information
+            </h1>
+            <p class="text-xl text-vera-gray max-w-2xl mx-auto">
+                Posez votre question et obtenez une réponse vérifiée par l'IA en temps réel
+            </p>
         </div>
+    </div>
 
-        <!-- Input Card -->
-        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 -mt-8">
+        <!-- Input Card with white background -->
+        <div class="bg-white rounded-3xl shadow-lg border border-gray-200 p-8 sm:p-12 mb-12">
             <form [formGroup]="factCheckForm" (ngSubmit)="onSubmit()">
-                <div class="mb-6">
-                    <label for="query" class="block text-sm font-semibold text-gray-700 mb-3">
-                        Your Question or Claim
+                <!-- Question Input -->
+                <div class="mb-8">
+                    <label for="query" class="block text-lg font-semibold text-vera-dark mb-4">
+                        Votre question
                     </label>
-                    <textarea id="query" formControlName="query" rows="4" placeholder="Example: Is climate change real?"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all resize-none text-gray-900 placeholder-gray-400"></textarea>
-                    <p class="mt-2 text-sm text-gray-500">Minimum 3 characters required</p>
+                    <textarea id="query" formControlName="query" rows="5"
+                        placeholder="Exemple : Le changement climatique est-il réel ?"
+                        class="w-full px-6 py-4 text-base border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-vera-green focus:border-vera-green outline-none transition-all resize-none text-vera-dark placeholder-gray-400 hover:border-gray-300"></textarea>
+                    <p class="mt-3 text-sm text-vera-gray">Minimum 3 caractères requis</p>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="flex gap-3">
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4">
                     <button type="submit" [disabled]="!factCheckForm.valid || isLoading"
-                        class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed focus:ring-4 focus:ring-indigo-200 outline-none shadow-lg hover:shadow-xl">
-                        <span *ngIf="!isLoading">
-                            <svg class="w-5 h-5 inline mr-2 -mt-1" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
+                        class="flex-1 bg-vera-dark hover:bg-gray-800 text-white text-lg font-semibold py-4 px-8 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed focus:ring-4 focus:ring-vera-green outline-none shadow-md hover:shadow-lg">
+                        <span *ngIf="!isLoading" class="flex items-center justify-center">
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
-                            Verify Claim
+                            Vérifier
                         </span>
                         <span *ngIf="isLoading" class="flex items-center justify-center">
-                            <svg class="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                            <svg class="animate-spin h-6 w-6 mr-3" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
                                     fill="none"></circle>
                                 <path class="opacity-75" fill="currentColor"
                                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                 </path>
                             </svg>
-                            Analyzing...
+                            Analyse en cours...
                         </span>
                     </button>
 
                     <button type="button" *ngIf="result || errorMessage" (click)="clearResult()"
-                        class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-colors">
-                        Clear
+                        class="sm:w-auto px-8 py-4 bg-white border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50 text-vera-dark text-lg font-semibold rounded-xl transition-colors">
+                        Effacer
                     </button>
                 </div>
             </form>
         </div>
 
         <!-- Error Message -->
-        <div *ngIf="errorMessage" class="bg-red-50 border-l-4 border-red-500 rounded-xl p-6 mb-8 shadow-md">
+        <div *ngIf="errorMessage" class="bg-vera-pink border-2 border-red-200 rounded-2xl p-6 mb-12">
             <div class="flex items-start">
-                <svg class="w-6 h-6 text-red-600 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-6 h-6 text-red-700 mt-0.5 mr-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd"
                         d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
                         clip-rule="evenodd"></path>
                 </svg>
                 <div>
-                    <h3 class="text-red-800 font-semibold mb-1">Error</h3>
-                    <p class="text-red-700 text-sm">{{ errorMessage }}</p>
+                    <h3 class="text-vera-dark font-bold text-lg mb-1">Erreur</h3>
+                    <p class="text-red-800">{{ errorMessage }}</p>
                 </div>
             </div>
         </div>
 
-        <!-- Results Card -->
-        <div *ngIf="result || isLoading" class="bg-white rounded-2xl shadow-xl p-8 border-2 border-indigo-100">
-            <div class="flex items-center mb-6">
-                <div
-                    class="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center mr-4">
-                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        <!-- Results Section -->
+        <div *ngIf="result || isLoading" class="bg-white rounded-3xl shadow-lg border-2 border-vera-blue p-8 sm:p-12">
+            <div class="flex items-center mb-8">
+                <div class="w-14 h-14 bg-vera-green rounded-2xl flex items-center justify-center mr-5 shadow-md">
+                    <svg class="w-8 h-8 text-vera-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-2xl font-bold text-gray-900">Analysis Result</h3>
-                    <p class="text-sm text-gray-500">AI-powered verification</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-vera-dark">Résultat de l'analyse</h2>
+                    <p class="text-base text-vera-gray mt-1">Vérification par IA</p>
                 </div>
             </div>
 
             <!-- Loading State -->
-            <div *ngIf="isLoading && !result" class="flex items-center justify-center py-12">
-                <div class="text-center">
-                    <svg class="animate-spin h-12 w-12 text-indigo-600 mx-auto mb-4" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
-                            fill="none"></circle>
-                        <path class="opacity-75" fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                        </path>
-                    </svg>
-                    <p class="text-gray-600 font-medium">Analyzing your claim...</p>
-                </div>
+            <div *ngIf="isLoading && !result" class="flex flex-col items-center justify-center py-16">
+                <svg class="animate-spin h-16 w-16 text-vera-dark mb-6" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+                        fill="none"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+                <p class="text-vera-gray font-medium text-lg">Analyse de votre question en cours...</p>
             </div>
 
             <!-- Streaming Result -->
             <div *ngIf="result" class="prose prose-lg max-w-none">
-                <div class="text-gray-800 whitespace-pre-wrap leading-relaxed streaming-text">{{ result }}<span
-                        *ngIf="isLoading" class="cursor-blink">|</span>
+                <div class="text-vera-dark text-lg leading-relaxed whitespace-pre-wrap streaming-text">
+                    {{ result }}<span *ngIf="isLoading" class="cursor-blink">|</span>
                 </div>
             </div>
         </div>
 
         <!-- Empty State -->
         <div *ngIf="!result && !isLoading && !errorMessage"
-            class="text-center py-16 bg-white rounded-2xl shadow-lg border-2 border-dashed border-gray-200">
-            <svg class="w-20 h-20 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            class="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-vera-pink">
+            <svg class="w-24 h-24 text-gray-300 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                     d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
                 </path>
             </svg>
-            <h3 class="text-xl font-semibold text-gray-700 mb-2">No Results Yet</h3>
-            <p class="text-gray-500">Enter a claim above to get started with fact-checking</p>
+            <h3 class="text-2xl font-bold text-vera-dark mb-3">Aucun résultat pour le moment</h3>
+            <p class="text-vera-gray text-lg">Posez une question ci-dessus pour commencer la vérification</p>
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-12 mt-24">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-vera-gray text-sm">
+                Propulsé par l'IA pour combattre la désinformation
+            </p>
+        </div>
+    </footer>
 </div>

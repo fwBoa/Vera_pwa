@@ -1,3 +1,74 @@
+/* Import Google Fonts - MUST BE FIRST */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Configuration de base avec les polices Vera */
+@layer base {
+    html {
+        font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+        @apply text-gray-900;
+        background-color: #FEF2E4;
+        /* Beige Vera */
+    }
+}
+
+/* Variables globales - Palette officielle AskVera */
+:root {
+    /* Couleurs principales du brand kit */
+    --vera-beige: #FEF2E4;
+    /* Fond principal */
+    --vera-green: #DBF9BE;
+    /* Accents verts */
+    --vera-pink: #FFD5D8;
+    /* Accents roses */
+    --vera-blue: #B4D2FF;
+    /* Accents bleus */
+
+    /* Couleurs utilitaires */
+    --vera-dark: #2D2D2D;
+    /* Texte foncé */
+    --vera-gray: #5A5A5A;
+    /* Texte secondaire */
+    --vera-white: #FFFFFF;
+    /* Blanc pur */
+}
+
+/* Classes utilitaires Vera */
+@layer utilities {
+    .bg-vera-beige {
+        background-color: var(--vera-beige);
+    }
+
+    .bg-vera-green {
+        background-color: var(--vera-green);
+    }
+
+    .bg-vera-pink {
+        background-color: var(--vera-pink);
+    }
+
+    .bg-vera-blue {
+        background-color: var(--vera-blue);
+    }
+
+    .text-vera-dark {
+        color: var(--vera-dark);
+    }
+
+    .text-vera-gray {
+        color: var(--vera-gray);
+    }
+}
+
+/* Optimisation des performances */
+* {
+    -webkit-tap-highlight-color: transparent;
+}

@@ -33,7 +33,8 @@ export class AdminLoginComponent {
             this.http.post<{ token: string }>('/api/auth/login', this.loginForm.value).subscribe({
                 next: (response) => {
                     this.authService.setToken(response.token);
-                    this.router.navigate(['/fact-check']);
+                    console.log('Login successful, navigating to dashboard...');
+                    this.router.navigate(['/admin/dashboard']);
                 },
                 error: (err) => {
                     this.errorMessage = 'Invalid credentials';
