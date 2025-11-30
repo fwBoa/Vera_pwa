@@ -43,7 +43,7 @@ app.use(cors({
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send({ message: 'Hello API' });
+  res.send({ message: 'Salut flo, bah ça fonctionne ahaha' });
 });
 
 app.use('/api/auth', authRoutes);
