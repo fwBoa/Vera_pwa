@@ -13,31 +13,45 @@ export class GoogleSheetsService {
 
     constructor() {
         try {
-            // Try to locate credentials file
-            // We are in src/services, so we need to go up to root of app
-            const possiblePaths = [
-                path.join(__dirname, '../../google-credentials.json'), // From src/services
-                path.join(process.cwd(), 'apps/api-proxy/google-credentials.json'), // From workspace root
-                path.join(process.cwd(), 'google-credentials.json') // Fallback
-            ];
-
-            let credentialsPath = '';
-            for (const p of possiblePaths) {
-                if (fs.existsSync(p)) {
-                    credentialsPath = p;
-                    break;
-                }
+            // Debug environment variables
+            console.log('[GoogleSheetsService] Initializing...');
+            console.log('[GoogleSheetsService] GOOGLE_SHEETS_ID present:', !!process.env.GOOGLE_SHEETS_ID);
+            console.log('[GoogleSheetsService] GOOGLE_CREDENTIALS present:', !!process.env.GOOGLE_CREDENTIALS);
+            if (process.env.GOOGLE_CREDENTIALS) {
+                console.log('[GoogleSheetsService] GOOGLE_CREDENTIALS length:', process.env.GOOGLE_CREDENTIALS.length);
             }
 
             let credentials;
-            if (credentialsPath) {
-                console.log('[GoogleSheetsService] Found credentials at:', credentialsPath);
-                credentials = JSON.parse(fs.readFileSync(credentialsPath, 'utf-8'));
-            } else {
-                console.warn('[GoogleSheetsService] Credentials file not found in:', possiblePaths);
-                // Fallback to environment variable
-                console.log('[GoogleSheetsService] Trying environment variable GOOGLE_CREDENTIALS');
-                credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS || '{}');
+            // Prioritize environment variable in production/Vercel
+            if (process.env.GOOGLE_CREDENTIALS) {
+                try {
+                    credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
+                    console.log('[GoogleSheetsService] Successfully parsed GOOGLE_CREDENTIALS from env');
+                } catch (e) {
+                    console.error('[GoogleSheetsService] Failed to parse GOOGLE_CREDENTIALS env var:', e);
+                }
+            }
+
+            // Fallback to file if env var missing or failed
+            if (!credentials) {
+                const possiblePaths = [
+                    path.join(__dirname, '../../google-credentials.json'),
+                    path.join(process.cwd(), 'apps/api-proxy/google-credentials.json'),
+                    path.join(process.cwd(), 'google-credentials.json')
+                ];
+
+                for (const p of possiblePaths) {
+                    if (fs.existsSync(p)) {
+                        console.log('[GoogleSheetsService] Found credentials file at:', p);
+                        credentials = JSON.parse(fs.readFileSync(p, 'utf-8'));
+                        break;
+                    }
+                }
+            }
+
+            if (!credentials) {
+                console.error('[GoogleSheetsService] CRITICAL: No credentials found (Env var or File)');
+                throw new Error('Google Credentials not found');
             }
 
             const auth = new google.auth.GoogleAuth({
@@ -49,10 +63,11 @@ export class GoogleSheetsService {
             this.spreadsheetId = process.env.GOOGLE_SHEETS_ID || '';
             this.range = process.env.SURVEY_SHEET_RANGE || 'Sheet1!A1:Z1000';
 
-            console.log('[GoogleSheetsService] Initialized with Sheet ID:', this.spreadsheetId);
+            console.log('[GoogleSheetsService] Service initialized successfully');
         } catch (error) {
             console.error('[GoogleSheetsService] Initialization error:', error);
-            throw error;
+            // Do not throw here to allow app to start, but subsequent calls will fail
+            this.sheets = null;
         }
     }
 
