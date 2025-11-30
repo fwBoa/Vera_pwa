@@ -81,25 +81,59 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     updateChart(stats: SurveyStats) {
-        // Example: Count responses per column (simplified logic for demo)
-        // In a real scenario, we would process specific questions
-        // Here we just show total responses as a single bar for now, 
-        // or we could try to parse the sample data if we knew the structure.
-
-        // Let's try to visualize the first question if possible, or just a dummy chart for now
-        // based on the "totalResponses"
+        // For now, display a clean "Total Responses" chart
+        // In the future, we could parse specific questions from the survey data
 
         this.barChartData = {
             labels: ['Total Réponses'],
             datasets: [
                 {
                     data: [stats.totalResponses],
-                    label: 'Nombre de participants',
-                    backgroundColor: ['#D8B4FE'], // Vera Purple
-                    borderColor: ['#7E22CE'],
-                    borderWidth: 1
+                    label: 'Participants',
+                    backgroundColor: ['#2A9D8F'], // Vera Teal
+                    borderColor: ['#264653'],
+                    borderWidth: 1,
+                    borderRadius: 8,
+                    barThickness: 60
                 }
             ]
+        };
+
+        this.barChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false, // Hide legend for single bar
+                },
+                title: {
+                    display: false,
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    },
+                    ticks: {
+                        font: {
+                            family: "'Inter', sans-serif"
+                        }
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            family: "'Playfair Display', serif",
+                            size: 14
+                        }
+                    }
+                }
+            }
         };
     }
 

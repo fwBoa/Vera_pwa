@@ -1,150 +1,159 @@
-<div class="min-h-screen bg-vera-beige">
-    <!-- Clean Navigation with Vera colors -->
-    <nav class="bg-white border-b border-gray-200">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <!-- Logo Vera -->
-                <div class="flex items-center">
-                    <img src="/logos/Logo/size=M, color=black.png" alt="Vera" class="h-8">
-                </div>
+<div class="min-h-screen font-['Inter'] relative overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0">
+        <img src="image_fond.png" alt="" class="w-full h-full object-cover opacity-100">
+        <!-- Overlay to ensure text readability if needed, though design shows clear text -->
+        <div class="absolute inset-0 bg-vera-beige/30 mix-blend-multiply"></div>
+    </div>
 
-                <!-- Auth Button -->
-                <button *ngIf="isAuthenticated" (click)="logout()"
-                    class="px-5 py-2.5 text-sm font-medium text-vera-dark hover:bg-gray-50 rounded-lg transition-colors border border-gray-200">
-                    Se déconnecter
-                </button>
-            </div>
+    <!-- Skip to main content link for keyboard users -->
+    <a href="#main-content"
+        class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-6 focus:py-3 focus:bg-vera-dark focus:text-white focus:rounded-lg focus:shadow-lg">
+        Aller au contenu principal
+    </a>
+
+    <!-- Navigation -->
+    <nav class="w-full pt-6 px-6 sm:px-12 flex justify-between items-center relative z-10" role="navigation"
+        aria-label="Navigation principale">
+        <!-- Logo Vera -->
+        <div class="flex items-center">
+            <img src="/logos/Logo/size=M, color=black.png" alt="Logo Vera" class="h-8 sm:h-10">
+        </div>
+
+        <!-- Right Menu -->
+        <div class="flex items-center space-x-6">
+            <button type="button"
+                class="bg-[#C5E898] hover:bg-[#b0d680] text-vera-dark font-medium px-6 py-2 rounded-full transition-colors shadow-sm text-sm sm:text-base"
+                aria-label="Comment ça marche">
+                Comment ça marche ?
+            </button>
+
+            <!-- Auth Button (Hidden for now based on design, or kept minimal) -->
+            <button *ngIf="isAuthenticated" (click)="logout()" aria-label="Se déconnecter"
+                class="hidden sm:block text-sm text-vera-gray hover:text-vera-dark transition-colors">
+                (Déconnexion)
+            </button>
         </div>
     </nav>
 
-    <!-- Hero Section with Vera beige background -->
-    <div class="bg-vera-beige py-16 sm:py-24">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-vera-dark mb-6 leading-tight">
-                Vérifiez n'importe quelle information
-            </h1>
-            <p class="text-xl text-vera-gray max-w-2xl mx-auto">
-                Posez votre question et obtenez une réponse vérifiée par l'IA en temps réel
-            </p>
-        </div>
-    </div>
-
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 -mt-8">
-        <!-- Input Card with white background -->
-        <div class="bg-white rounded-3xl shadow-lg border border-gray-200 p-8 sm:p-12 mb-12">
-            <form [formGroup]="factCheckForm" (ngSubmit)="onSubmit()">
-                <!-- Question Input -->
-                <div class="mb-8">
-                    <label for="query" class="block text-lg font-semibold text-vera-dark mb-4">
-                        Votre question
-                    </label>
-                    <textarea id="query" formControlName="query" rows="5"
-                        placeholder="Exemple : Le changement climatique est-il réel ?"
-                        class="w-full px-6 py-4 text-base border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-vera-green focus:border-vera-green outline-none transition-all resize-none text-vera-dark placeholder-gray-400 hover:border-gray-300"></textarea>
-                    <p class="mt-3 text-sm text-vera-gray">Minimum 3 caractères requis</p>
+    <main id="main-content"
+        class="relative z-10 flex flex-col items-center justify-center min-h-[75vh] px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center"
+        role="main">
+
+        <!-- Hero Section -->
+        <header class="mb-12 sm:mb-16 animate-fade-in-up w-full max-w-4xl">
+            <h1
+                class="text-4xl sm:text-5xl lg:text-6xl font-['Playfair_Display'] text-vera-dark mb-6 leading-tight tracking-tight">
+                Vérifie instantanément n’importe quelle info
+            </h1>
+            <p class="text-base sm:text-lg text-vera-dark/80 max-w-2xl mx-auto font-light leading-relaxed">
+                Texte, image, vidéo, audio, URL : Vera te dit en 3 secondes si c’est vrai ou faux, sources à l’appui.
+            </p>
+        </header>
+
+        <!-- Search Input Section -->
+        <section class="w-full max-w-3xl mx-auto relative z-10" aria-labelledby="form-title">
+            <h2 id="form-title" class="sr-only">Formulaire de vérification</h2>
+
+            <form [formGroup]="factCheckForm" (ngSubmit)="onSubmit()" class="relative w-full group"
+                aria-label="Formulaire de fact-checking">
+
+                <!-- Pill Shaped Input Container -->
+                <div
+                    class="relative flex items-center w-full bg-[#2D2D2D] rounded-full shadow-2xl transition-all duration-300 hover:shadow-3xl focus-within:ring-4 focus-within:ring-vera-dark/20 overflow-hidden">
+
+                    <!-- Plus Icon (Upload/Add) -->
+                    <button type="button"
+                        class="pl-5 sm:pl-6 pr-3 sm:pr-4 text-gray-400 hover:text-white transition-colors focus:outline-none"
+                        aria-label="Ajouter un fichier">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
+                            </path>
+                        </svg>
+                    </button>
+
+                    <!-- Input Field -->
+                    <input type="text" id="query" formControlName="query" placeholder="La vérité, en un clic..."
+                        autocomplete="off" aria-required="true"
+                        class="w-full py-4 sm:py-5 bg-transparent text-white placeholder-gray-400 text-base sm:text-lg border-none focus:ring-0 outline-none truncate" />
+
+                    <!-- Microphone Icon (Voice) -->
+                    <button type="button"
+                        class="pr-5 sm:pr-6 pl-3 sm:pl-4 text-gray-400 hover:text-white transition-colors focus:outline-none"
+                        aria-label="Recherche vocale">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z">
+                            </path>
+                        </svg>
+                    </button>
+
+                    <!-- Submit Button (Hidden visually but accessible via Enter) -->
+                    <button type="submit" [disabled]="!factCheckForm.valid || isLoading"
+                        class="sr-only">Vérifier</button>
                 </div>
 
-                <!-- CTA Buttons -->
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <button type="submit" [disabled]="!factCheckForm.valid || isLoading"
-                        class="flex-1 bg-vera-dark hover:bg-gray-800 text-white text-lg font-semibold py-4 px-8 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed focus:ring-4 focus:ring-vera-green outline-none shadow-md hover:shadow-lg">
-                        <span *ngIf="!isLoading" class="flex items-center justify-center">
-                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                            Vérifier
-                        </span>
-                        <span *ngIf="isLoading" class="flex items-center justify-center">
-                            <svg class="animate-spin h-6 w-6 mr-3" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
-                                    fill="none"></circle>
-                                <path class="opacity-75" fill="currentColor"
-                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                </path>
-                            </svg>
-                            Analyse en cours...
-                        </span>
-                    </button>
-
-                    <button type="button" *ngIf="result || errorMessage" (click)="clearResult()"
-                        class="sm:w-auto px-8 py-4 bg-white border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50 text-vera-dark text-lg font-semibold rounded-xl transition-colors">
-                        Effacer
-                    </button>
+                <!-- Loading Indicator -->
+                <div *ngIf="isLoading" class="absolute -bottom-12 left-0 right-0 flex justify-center">
+                    <span
+                        class="flex items-center text-vera-dark font-medium bg-white/50 backdrop-blur-sm px-4 py-1 rounded-full">
+                        <svg class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+                                fill="none"></circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                        Analyse en cours...
+                    </span>
                 </div>
             </form>
-        </div>
+        </section>
 
         <!-- Error Message -->
-        <div *ngIf="errorMessage" class="bg-vera-pink border-2 border-red-200 rounded-2xl p-6 mb-12">
-            <div class="flex items-start">
-                <svg class="w-6 h-6 text-red-700 mt-0.5 mr-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                        clip-rule="evenodd"></path>
-                </svg>
-                <div>
-                    <h3 class="text-vera-dark font-bold text-lg mb-1">Erreur</h3>
-                    <p class="text-red-800">{{ errorMessage }}</p>
-                </div>
-            </div>
+        <div *ngIf="errorMessage"
+            class="mt-8 max-w-2xl mx-auto bg-vera-pink border border-red-200 rounded-xl p-4 flex items-center text-left animate-fade-in shadow-lg"
+            role="alert">
+            <svg class="w-5 h-5 text-red-700 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clip-rule="evenodd"></path>
+            </svg>
+            <span class="text-red-800">{{ errorMessage }}</span>
         </div>
 
         <!-- Results Section -->
-        <div *ngIf="result || isLoading" class="bg-white rounded-3xl shadow-lg border-2 border-vera-blue p-8 sm:p-12">
-            <div class="flex items-center mb-8">
-                <div class="w-14 h-14 bg-vera-green rounded-2xl flex items-center justify-center mr-5 shadow-md">
-                    <svg class="w-8 h-8 text-vera-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
+        <section *ngIf="result" class="mt-16 w-full max-w-4xl mx-auto text-left animate-fade-in-up" aria-live="polite">
+            <div class="bg-white/90 backdrop-blur-md rounded-3xl shadow-xl border border-white/50 p-6 sm:p-12">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 bg-[#C5E898] rounded-full flex items-center justify-center mr-4 shadow-sm">
+                        <svg class="w-6 h-6 text-vera-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold font-['Playfair_Display'] text-vera-dark">Résultat de l'analyse</h2>
                 </div>
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-bold text-vera-dark">Résultat de l'analyse</h2>
-                    <p class="text-base text-vera-gray mt-1">Vérification par IA</p>
-                </div>
-            </div>
 
-            <!-- Loading State -->
-            <div *ngIf="isLoading && !result" class="flex flex-col items-center justify-center py-16">
-                <svg class="animate-spin h-16 w-16 text-vera-dark mb-6" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
-                        fill="none"></circle>
-                    <path class="opacity-75" fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                    </path>
-                </svg>
-                <p class="text-vera-gray font-medium text-lg">Analyse de votre question en cours...</p>
-            </div>
-
-            <!-- Streaming Result -->
-            <div *ngIf="result" class="prose prose-lg max-w-none">
-                <div class="text-vera-dark text-lg leading-relaxed whitespace-pre-wrap streaming-text">
+                <div
+                    class="prose prose-lg max-w-none text-vera-dark leading-relaxed whitespace-pre-wrap streaming-text">
                     {{ result }}<span *ngIf="isLoading" class="cursor-blink">|</span>
                 </div>
-            </div>
-        </div>
 
-        <!-- Empty State -->
-        <div *ngIf="!result && !isLoading && !errorMessage"
-            class="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-vera-pink">
-            <svg class="w-24 h-24 text-gray-300 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                    d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                </path>
-            </svg>
-            <h3 class="text-2xl font-bold text-vera-dark mb-3">Aucun résultat pour le moment</h3>
-            <p class="text-vera-gray text-lg">Posez une question ci-dessus pour commencer la vérification</p>
-        </div>
+                <div class="mt-8 flex justify-end">
+                    <button (click)="clearResult()"
+                        class="text-sm text-vera-gray hover:text-vera-dark underline underline-offset-4 transition-colors">
+                        Nouvelle recherche
+                    </button>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 py-12 mt-24">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-vera-gray text-sm">
-                Propulsé par l'IA pour combattre la désinformation
-            </p>
-        </div>
+    <footer class="absolute bottom-0 w-full py-4 text-center bg-[#C5E898] z-10" role="contentinfo">
+        <p class="text-vera-dark text-xs sm:text-sm font-medium">© 2025 Vera. All rights reserved.</p>
     </footer>
 </div>

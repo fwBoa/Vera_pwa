@@ -1,18 +1,18 @@
-<div class="min-h-screen bg-[#FEF2E4] font-sans text-[#2D2D2D]">
+<div class="min-h-screen bg-vera-beige font-['Inter'] text-vera-dark">
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm border-b border-[#E5E7EB]">
+    <nav class="bg-white/80 backdrop-blur-md shadow-sm border-b border-white/50 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20">
                 <div class="flex items-center gap-4">
-                    <img src="logos/Logo/size=M, color=black.png" alt="Vera Logo" class="h-8">
-                    <span class="text-xl font-bold tracking-tight">Dashboard Admin</span>
+                    <img src="/logos/Logo/size=M, color=black.png" alt="Vera Logo" class="h-8">
+                    <span class="text-xl font-bold font-['Playfair_Display'] tracking-tight">Dashboard Admin</span>
                 </div>
-                <div class="flex items-center gap-4">
-                    <div class="text-sm text-gray-500" *ngIf="stats">
-                        Dernière màj: {{ stats.lastUpdated | date:'HH:mm:ss' }}
+                <div class="flex items-center gap-6">
+                    <div class="text-sm text-vera-dark/60 font-light hidden sm:block" *ngIf="stats">
+                        Dernière màj: {{ stats.lastUpdated | date:'HH:mm' }}
                     </div>
                     <button (click)="logout()"
-                        class="bg-[#2D2D2D] hover:bg-black text-white font-medium py-2 px-6 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
+                        class="bg-vera-dark hover:bg-gray-800 text-white font-medium py-2.5 px-6 rounded-full transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-vera-dark/20 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                         Déconnexion
                     </button>
                 </div>
@@ -20,39 +20,65 @@
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Loading State -->
-        <div *ngIf="loading" class="flex justify-center items-center h-64">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2D2D2D]"></div>
+        <div *ngIf="loading" class="flex flex-col justify-center items-center h-64">
+            <div class="animate-spin rounded-full h-12 w-12 border-4 border-vera-dark border-t-transparent mb-4"></div>
+            <p class="text-vera-dark/60 font-light">Chargement des données...</p>
         </div>
 
         <!-- Error State -->
-        <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6"
+        <div *ngIf="error"
+            class="bg-vera-pink/50 border border-red-200 text-red-800 px-6 py-4 rounded-2xl relative mb-8 flex items-center shadow-sm"
             role="alert">
-            <strong class="font-bold">Erreur!</strong>
-            <span class="block sm:inline"> {{ error }}</span>
+            <svg class="w-6 h-6 mr-3 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div>
+                <strong class="font-bold block">Erreur de chargement</strong>
+                <span class="block sm:inline text-sm opacity-90"> {{ error }}</span>
+            </div>
         </div>
 
         <!-- Dashboard Content -->
-        <div *ngIf="!loading && stats" class="space-y-8">
+        <div *ngIf="!loading && stats" class="space-y-8 animate-fade-in-up">
+
+            <!-- Header Section -->
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+                <div>
+                    <h1 class="text-4xl font-bold font-['Playfair_Display'] text-vera-dark mb-2">Vue d'ensemble</h1>
+                    <p class="text-vera-dark/60 font-light">Suivi en temps réel des sondages et de l'activité.</p>
+                </div>
+                <button (click)="loadStats()"
+                    class="inline-flex items-center text-vera-dark/60 hover:text-vera-dark transition-colors">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 4v5h.058M20 20v-5h-.058M9 4v5h.058M15 20v-5h-.058M4 4l5 5M20 20l-5-5"></path>
+                    </svg>
+                    Actualiser
+                </button>
+            </div>
 
             <!-- Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Card 1: Total Responses -->
-                <div class="bg-white overflow-hidden shadow-sm rounded-2xl p-6 border border-gray-100">
+                <div
+                    class="bg-white/80 backdrop-blur-sm overflow-hidden shadow-xl rounded-3xl p-8 border border-white/50 group hover:shadow-2xl transition-all duration-300">
                     <div class="flex items-center">
-                        <div class="flex-shrink-0 bg-[#D8B4FE] rounded-md p-3">
-                            <svg class="h-6 w-6 text-[#5B21B6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div
+                            class="flex-shrink-0 bg-[#D8B4FE]/20 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="h-8 w-8 text-[#7E22CE]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                         </div>
-                        <div class="ml-5 w-0 flex-1">
+                        <div class="ml-6 w-0 flex-1">
                             <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">
+                                <dt class="text-sm font-medium text-vera-dark/60 truncate uppercase tracking-wider">
                                     Total Participants
                                 </dt>
-                                <dd class="text-3xl font-bold text-gray-900">
+                                <dd class="text-4xl font-bold text-vera-dark mt-1 font-['Playfair_Display']">
                                     {{ stats.totalResponses }}
                                 </dd>
                             </dl>
@@ -60,21 +86,23 @@
                     </div>
                 </div>
 
-                <!-- Card 2: Status (Mock) -->
-                <div class="bg-white overflow-hidden shadow-sm rounded-2xl p-6 border border-gray-100">
+                <!-- Card 2: Status -->
+                <div
+                    class="bg-white/80 backdrop-blur-sm overflow-hidden shadow-xl rounded-3xl p-8 border border-white/50 group hover:shadow-2xl transition-all duration-300">
                     <div class="flex items-center">
-                        <div class="flex-shrink-0 bg-[#98FB98] rounded-md p-3">
-                            <svg class="h-6 w-6 text-[#006400]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div
+                            class="flex-shrink-0 bg-[#98FB98]/20 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="h-8 w-8 text-[#006400]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <div class="ml-5 w-0 flex-1">
+                        <div class="ml-6 w-0 flex-1">
                             <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">
+                                <dt class="text-sm font-medium text-vera-dark/60 truncate uppercase tracking-wider">
                                     Statut API
                                 </dt>
-                                <dd class="text-lg font-bold text-green-600">
+                                <dd class="text-xl font-bold text-green-700 mt-1 font-['Playfair_Display']">
                                     Opérationnel
                                 </dd>
                             </dl>
@@ -83,21 +111,23 @@
                 </div>
 
                 <!-- Card 3: Last Sync -->
-                <div class="bg-white overflow-hidden shadow-sm rounded-2xl p-6 border border-gray-100">
+                <div
+                    class="bg-white/80 backdrop-blur-sm overflow-hidden shadow-xl rounded-3xl p-8 border border-white/50 group hover:shadow-2xl transition-all duration-300">
                     <div class="flex items-center">
-                        <div class="flex-shrink-0 bg-[#FFB6C1] rounded-md p-3">
-                            <svg class="h-6 w-6 text-[#9F1239]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div
+                            class="flex-shrink-0 bg-[#FFB6C1]/20 rounded-2xl p-4 group-hover:scale-110 transition-transform duration-300">
+                            <svg class="h-8 w-8 text-[#9F1239]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <div class="ml-5 w-0 flex-1">
+                        <div class="ml-6 w-0 flex-1">
                             <dl>
-                                <dt class="text-sm font-medium text-gray-500 truncate">
+                                <dt class="text-sm font-medium text-vera-dark/60 truncate uppercase tracking-wider">
                                     Dernière synchro
                                 </dt>
-                                <dd class="text-lg font-bold text-gray-900">
-                                    {{ stats.lastUpdated | date:'shortTime' }}
+                                <dd class="text-2xl font-bold text-vera-dark mt-1 font-['Playfair_Display']">
+                                    {{ stats.lastUpdated | date:'HH:mm' }}
                                 </dd>
                             </dl>
                         </div>
@@ -106,34 +136,36 @@
             </div>
 
             <!-- Charts Section -->
-            <div class="bg-white shadow-sm rounded-2xl p-6 border border-gray-100">
-                <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Aperçu des Réponses</h3>
+            <div class="bg-white/80 backdrop-blur-sm shadow-xl rounded-3xl p-8 border border-white/50">
+                <h3 class="text-2xl font-bold font-['Playfair_Display'] text-vera-dark mb-6">Analyse des Réponses</h3>
                 <div class="h-96 w-full">
                     <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType">
                     </canvas>
                 </div>
             </div>
 
-            <!-- Data Table Preview (Optional) -->
-            <div class="bg-white shadow-sm rounded-2xl overflow-hidden border border-gray-100">
-                <div class="px-6 py-4 border-b border-gray-200">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">Dernières données brutes</h3>
+            <!-- Data Table Preview -->
+            <div class="bg-white/80 backdrop-blur-sm shadow-xl rounded-3xl overflow-hidden border border-white/50">
+                <div class="px-8 py-6 border-b border-gray-200/50 flex justify-between items-center">
+                    <h3 class="text-xl font-bold font-['Playfair_Display'] text-vera-dark">Dernières données brutes</h3>
+                    <span class="text-sm text-vera-dark/60 bg-vera-beige px-3 py-1 rounded-full">5 derniers
+                        résultats</span>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                    <table class="min-w-full divide-y divide-gray-200/50">
+                        <thead class="bg-gray-50/50">
                             <tr>
-                                <th *ngFor="let col of stats.columns.slice(0, 5)"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    {{ col }}
+                                <th *ngFor="let col of stats.columns.slice(0, 4)"
+                                    class="px-8 py-4 text-left text-xs font-semibold text-vera-dark/60 uppercase tracking-wider">
+                                    {{ col | slice:0:30 }}{{ col.length > 30 ? '...' : '' }}
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <tr *ngFor="let row of stats.sampleData">
-                                <td *ngFor="let col of stats.columns.slice(0, 5)"
-                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ row[col] | slice:0:50 }}{{ row[col]?.length > 50 ? '...' : '' }}
+                        <tbody class="bg-transparent divide-y divide-gray-200/50">
+                            <tr *ngFor="let row of stats.sampleData" class="hover:bg-white/50 transition-colors">
+                                <td *ngFor="let col of stats.columns.slice(0, 4)"
+                                    class="px-8 py-4 whitespace-nowrap text-sm text-vera-dark/80 font-light">
+                                    {{ row[col] | slice:0:40 }}{{ row[col]?.length > 40 ? '...' : '' }}
                                 </td>
                             </tr>
                         </tbody>
