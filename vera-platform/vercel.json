@@ -1,0 +1,28 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "apps/vera-app/package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "dist/apps/vera-app/browser"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "https://vera-back-end.vercel.app/api/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/apps/vera-app/$1"
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
+}

@@ -23,7 +23,23 @@ const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:4200',
+  'https://vera-pwa.vercel.app',
+  'https://vera-platform.vercel.app' // Fallback
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log('Blocked by CORS:', origin);
+      callback(null, false); // Block other origins in production
+    }
+  },
+  credentials: true
+}));
 app.use(express.json());
 
 app.get('/', (req, res) => {
