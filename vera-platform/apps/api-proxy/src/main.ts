@@ -55,6 +55,12 @@ app.get('/api/admin/dashboard', authenticateToken, (req: AuthRequest, res) => {
   res.json({ message: `Welcome to the admin dashboard, ${req.user.username}` });
 });
 
-app.listen(port, host, () => {
-  console.log(`[ ready ] http://${host}:${port}`);
-});
+// Export app for Vercel
+export default app;
+
+// Only listen if running locally (not imported as a module)
+if (require.main === module) {
+  app.listen(port, host, () => {
+    console.log(`[ ready ] http://${host}:${port}`);
+  });
+}
