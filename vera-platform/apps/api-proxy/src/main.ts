@@ -1,3 +1,4 @@
+import { initTelegramBot } from './bots/telegram';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -30,3 +31,5 @@ app.get('/api/admin/dashboard', authenticateToken, (req: AuthRequest, res) => {
 app.listen(port, host, () => {
   console.log(`[ ready ] http://${host}:${port}`);
 });
+
+initTelegramBot();

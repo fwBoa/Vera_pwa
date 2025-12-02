@@ -1,0 +1,19 @@
+<div class="p-4">
+  <h2 class="font-bold mb-4">Analyser une URL</h2>
+
+  <input
+    type="url"
+    [(ngModel)]="url"
+    placeholder="Collez l’URL ici"
+    class="border p-2 w-full mb-4"
+  />
+
+  <button (click)="analyze()" class="bg-blue-600 text-white px-4 py-2 rounded">
+    Envoyer
+  </button>
+
+  <div *ngIf="result" class="mt-4 p-4 border">
+    <h3>Résultat :</h3>
+    <pre>{{ result | json }}</pre>
+  </div>
+</div>

@@ -4,44 +4,68 @@ import axios from 'axios';
 const router = Router();
 
 router.post('/analyze', async (req: Request, res: Response) => {
-  const { url } = req.body;
+  const { type, content, userId } = req.body;
 
-  if (!url) {
-    return res.status(400).json({ error: 'URL is required' });
+  if (!type || !content || !userId) {
+    return res
+      .status(400)
+      .json({ error: "Missing 'type', 'content', or 'userId'" });
   }
 
-  const apiUrl = process.env.X_API_URL;
-  const apiKey = process.env.X_API_KEY;
+  const apiUrl = process.env.VERA_API_URL;
+  const apiKey = process.env.VERA_API_KEY;
 
   if (!apiUrl || !apiKey) {
-    console.error('Missing configuration: X_API_URL or X_API_KEY');
+    console.error('❌ Missing configuration: VERA_API_URL or VERA_API_KEY');
     return res.status(500).json({ error: 'Server configuration error' });
   }
 
-  try {
-    const response = await axios.post(
-      `${apiUrl}/analyze`, // Assuming the endpoint is /analyze, adjusting if needed based on VERA API
-      { url },
-      {
-        headers: {
-          'X-API-Key': apiKey,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+  // Ce que Vera va recevoir comme texte
+  let userMessage = '';
 
-    return res.json(response.data);
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error('Upstream API error:', error.message);
-      const status = error.response?.status || 502;
-      return res.status(status).json({
-        error: 'Error communicating with VERA API',
-        details: error.response?.data,
-      });
-    }
-    console.error('Unknown error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+  switch (type) {
+    case 'text':
+      userMessage = content;
+      break;
+
+    case 'image':
+      userMessage = `Analyse l'image suivante : ${content}`;
+      break;
+
+    case 'video':
+      userMessage = `Analyse la vidéo suivante : ${content}`;
+      break;
+
+    case 'url':
+      userMessage = `Analyse cette page : ${content}`;
+      break;
+
+    default:
+      return res.status(400).json({ error: 'Unsupported type' });
+  }
+
+  const payload = {
+    userId,
+    query: userMessage,
+  };
+
+  try {
+    const response = await axios.post(apiUrl, payload, {
+      headers: {
+        'X-API-Key': apiKey,
+        'Content-Type': 'application/json',
+      },
+      // IMPORTANT : on dit à axios de retourner le texte brut
+      responseType: 'text',
+    });
+
+    return res.send(response.data);
+  } catch (error: any) {
+    console.error('❌ Vera API error:', error.message);
+    return res.status(500).json({
+      error: 'Error calling Vera API',
+      details: error.response?.data || error.message,
+    });
   }
 });
 
