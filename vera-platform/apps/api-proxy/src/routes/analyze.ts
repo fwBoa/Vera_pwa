@@ -1,7 +1,10 @@
 import { Request, Response, Router } from 'express';
 import axios from 'axios';
+import multer from 'multer';
+import { GeminiService } from '../services/gemini.service';
 
 const router = Router();
+// File upload and URL analysis are handled in multimodal.ts
 
 router.post('/analyze', async (req: Request, res: Response) => {
   const { userId, query } = req.body;
@@ -13,6 +16,10 @@ router.post('/analyze', async (req: Request, res: Response) => {
 
   const apiUrl = process.env.VERA_API_URL;
   const apiKey = process.env.VERA_API_KEY;
+
+  console.log('[Analyze] Request received');
+  console.log('[Analyze] VERA_API_URL:', apiUrl);
+  console.log('[Analyze] VERA_API_KEY:', apiKey ? 'Present' : 'Missing');
 
   if (!apiUrl || !apiKey) {
     console.error('Missing configuration: VERA_API_URL or VERA_API_KEY');
@@ -46,18 +53,8 @@ router.post('/analyze', async (req: Request, res: Response) => {
       fullResponse += chunk.toString();
     });
 
-    response.data.on('end', async () => {
-      try {
-        // Lazy load Supabase service to avoid startup crashes
-        const { SupabaseService } = require('../services/supabase.service');
-        const supabaseService = new SupabaseService();
-
-        await supabaseService.saveFactCheck(userId, query, fullResponse);
-        console.log('[Analyze] Fact-check saved to Supabase');
-      } catch (err) {
-        console.error('[Analyze] Error saving to Supabase:', err);
-        // Don't fail the request since the stream is already sent
-      }
+    response.data.on('end', () => {
+      console.log('[Analyze] Stream ended');
     });
 
     // Handle stream errors
@@ -87,7 +84,7 @@ router.post('/analyze', async (req: Request, res: Response) => {
       });
     }
     console.error('Unknown error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: 'Internal server error', details: error.message });
   }
 });
 

@@ -2,8 +2,23 @@ import * as dotenv from 'dotenv';
 import * as path from 'path';
 
 // Load .env from project root
+// Load .env from project root
+import * as fs from 'fs';
 const envPath = path.join(__dirname, '../../../.env');
-console.log('[ENV] Loading .env from:', envPath);
+console.log('[ENV] Current __dirname:', __dirname);
+console.log('[ENV] Calculated envPath:', envPath);
+if (fs.existsSync(envPath)) {
+  console.log('[ENV] .env file FOUND at:', envPath);
+} else {
+  console.error('[ENV] .env file NOT FOUND at:', envPath);
+  // Try alternative path for local dev (source root)
+  const altEnvPath = path.join(process.cwd(), '.env');
+  console.log('[ENV] Trying alternative path:', altEnvPath);
+  if (fs.existsSync(altEnvPath)) {
+    console.log('[ENV] .env file FOUND at alternative path');
+    dotenv.config({ path: altEnvPath });
+  }
+}
 dotenv.config({ path: envPath });
 
 // Debug: Show loaded Supabase env vars
@@ -40,9 +55,17 @@ app.get('/', (req, res) => {
   res.send({ message: 'Salut flo, bah ça fonctionne ahaha' });
 });
 
+// import multimodalRoutes from './routes/multimodal';
+import multimodalRoutes from './routes/multimodal';
+import metadataRoutes from './routes/metadata';
+
+// ...
+
 app.use('/api/auth', authRoutes);
 app.use('/api', analyzeRoutes);
-app.use('/api/survey', surveyRoutes); // Survey routes
+app.use('/api/survey', surveyRoutes);
+app.use('/api/analyze', multimodalRoutes); // Mounts /upload and /url under /api/analyze
+app.use('/api', metadataRoutes); // Mounts /metadata under /api
 
 // Protected Admin Route Example
 app.get('/api/admin/dashboard', authenticateToken, (req: AuthRequest, res) => {
@@ -52,9 +75,22 @@ app.get('/api/admin/dashboard', authenticateToken, (req: AuthRequest, res) => {
 // Export app for Vercel
 export default app;
 
+// Global error handlers to prevent crash
+process.on('uncaughtException', (err) => {
+  console.error('[CRITICAL] Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('[CRITICAL] Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
 // Only listen if running locally (not imported as a module)
-if (require.main === module) {
+// We assume if VERCEL env is not set, we are local
+if (!process.env.VERCEL) {
+  console.log('[Startup] Starting server on port', port);
   app.listen(port, host, () => {
     console.log(`[ ready ] http://${host}:${port}`);
   });
+} else {
+  console.log('[Startup] Skipping app.listen (running on Vercel)');
 }

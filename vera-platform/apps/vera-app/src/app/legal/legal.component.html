@@ -1,62 +1,201 @@
 <div class="min-h-screen bg-vera-beige font-['Inter'] p-8 sm:p-12">
-    <div class="max-w-4xl mx-auto bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 p-8 md:p-16"
-        role="main">
+    <div class="max-w-4xl mx-auto">
+        <a routerLink="/" class="inline-flex items-center text-vera-dark mb-8 hover:underline">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
+                </path>
+            </svg>
+            Retour à l'accueil
+        </a>
 
-        <!-- Header -->
-        <header class="mb-12 border-b border-gray-200/60 pb-8">
-            <a routerLink="/"
-                class="inline-flex items-center mb-6 text-vera-dark/60 hover:text-vera-dark transition-colors focus:outline-none focus:ring-2 focus:ring-vera-dark/20 rounded-lg px-2 py-1 -ml-2 group"
-                aria-label="Retourner à la page d'accueil">
-                <svg class="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none"
-                    stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-                Retour à l'accueil
-            </a>
-            <h1 class="text-4xl sm:text-5xl font-bold font-['Playfair_Display'] text-vera-dark">Mentions Légales</h1>
-        </header>
+        <h1 class="text-3xl sm:text-4xl font-bold text-vera-dark mb-8 font-['Playfair_Display']">Mentions Légales</h1>
 
-        <!-- Content -->
-        <div class="space-y-12 text-vera-dark/80 leading-relaxed">
+        <div class="prose prose-lg text-vera-dark/80 leading-relaxed space-y-6">
+            <p>Conformément aux dispositions de la loi n° 2004-575 du 21 juin 2004 pour la confiance en l'économie
+                numérique, il est précisé aux utilisateurs du site Vera l'identité des différents intervenants dans le
+                cadre de sa réalisation et de son suivi.</p>
 
-            <section>
-                <h2 class="text-2xl font-bold font-['Playfair_Display'] text-vera-dark mb-4">1. Éditeur du site</h2>
-                <p class="text-lg font-light">
-                    Le site <strong>Vera Platform</strong> est édité par l'équipe Vera.<br>
-                    <strong>Email de contact :</strong> contact@vera-platform.com
-                </p>
-            </section>
+            <h3 class="text-xl font-bold text-vera-dark mt-6 mb-3">Edition du site</h3>
+            <p>Le présent site, accessible à l'URL <a href="https://askvera-web.vercel.app/"
+                    class="text-blue-600 hover:underline">https://askvera-web.vercel.app/</a> (le « Site »), est édité
+                par : Jean-David ZAMBLEZIE, Tech Lead</p>
+            <p><strong>Vera SAS</strong>, société au capital de 1000 euros, inscrite au R.C.S. de PARIS sous le numéro
+                123 456 789, dont le siège social est situé au 52 rue du Faubourg Poissonnière, 75010 Paris.</p>
 
-            <section>
-                <h2 class="text-2xl font-bold font-['Playfair_Display'] text-vera-dark mb-4">2. Hébergement</h2>
-                <p class="text-lg font-light">
-                    Le site est hébergé par <strong>Vercel Inc.</strong><br>
-                    340 S Lemon Ave #4133<br>
-                    Walnut, CA 91789<br>
-                    USA
-                </p>
-            </section>
+            <h3 class="text-xl font-bold text-vera-dark mt-6 mb-3">Hébergement</h3>
+            <p>Le Site est hébergé par la société Vercel Inc., situé 340 S Lemon Ave #4133 Walnut, CA 91789, (contact
+                téléphonique ou email : <a href="https://vercel.com"
+                    class="text-blue-600 hover:underline">https://vercel.com</a>).</p>
 
-            <section>
-                <h2 class="text-2xl font-bold font-['Playfair_Display'] text-vera-dark mb-4">3. Propriété intellectuelle
-                </h2>
-                <p class="text-lg font-light">
-                    L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur et
-                    la propriété intellectuelle.
-                    Tous les droits de reproduction sont réservés, y compris pour les documents téléchargeables et les
-                    représentations iconographiques et photographiques.
-                </p>
-            </section>
+            <h3 class="text-xl font-bold text-vera-dark mt-6 mb-3">Nous contacter</h3>
+            <p>Par téléphone : +33 1 23 45 67 89<br>
+                Par courrier : 52 rue du Faubourg Poissonnière, 75010 Paris</p>
 
-            <section>
-                <h2 class="text-2xl font-bold font-['Playfair_Display'] text-vera-dark mb-4">4. Responsabilité</h2>
-                <p class="text-lg font-light">
-                    Les informations fournies sur ce site le sont à titre informatif. L'éditeur du site ne saurait
-                    garantir l'exactitude, la complétude et l'actualité des informations diffusées sur le site.
-                    En conséquence, l'utilisateur reconnaît utiliser ces informations sous sa responsabilité exclusive.
-                </p>
-            </section>
+            <hr class="my-12 border-t-2 border-gray-300">
 
+            <h2 class="text-2xl sm:text-3xl font-bold text-vera-dark mb-6 font-['Playfair_Display']">Conditions
+                Générales d'Utilisation</h2>
+
+            <h3 class="text-xl font-bold text-vera-dark mt-8 mb-3">Préambule</h3>
+            <p>VERA est un service d'intelligence artificielle créé et possédé par LAREPONSE.TECH, une organisation non
+                gouvernementale (ONG) ayant qualité d'association dédiée à lutter contre la désinformation et promouvoir
+                l'utilisation de la technologie pour le bien commun. LAREPONSE.TECH favorise l'engagement citoyen et
+                développe des solutions innovantes face aux défis climatiques et sociaux.</p>
+
+            <p>VERA permet aux utilisateurs de poser des questions via WhatsApp, Instagram ou par téléphone. Elle
+                fournit des réponses basées sur des faits qu'elle trouve sur des sites de fact-checking et d'actualité.
+            </p>
+
+            <p>L'accès et l'utilisation de VERA sont soumis aux présentes Conditions Générales d'Utilisation (CGU), qui
+                peuvent être modifiées à tout moment par LAREPONSE.TECH.</p>
+
+            <p>Les mineurs de moins de 15 ans doivent obtenir l'autorisation de leurs représentants légaux en vue
+                d'utiliser VERA.</p>
+
+            <h3 class="text-xl font-bold text-vera-dark mt-8 mb-3">Définitions</h3>
+            <ul class="list-disc pl-6 space-y-2">
+                <li><strong>Éditeur :</strong> désigne LAREPONSE.TECH, l'organisme propriétaire et responsable du
+                    service VERA.</li>
+                <li><strong>Service :</strong> désigne l'application VERA, accessible via WhatsApp, Instagram ou
+                    téléphone.</li>
+                <li><strong>Utilisateur :</strong> toute personne accédant à VERA pour poser des questions ou obtenir
+                    des réponses.</li>
+                <li><strong>Réponse :</strong> information fournie par VERA, basée sur des sources de fact-checking et
+                    d'actualité.</li>
+            </ul>
+
+            <h3 class="text-xl font-bold text-vera-dark mt-8 mb-3">Objet de VERA</h3>
+            <p>VERA a pour but de fournir des réponses factuelles basées sur des informations provenant de sites de
+                fact-checking et d'actualité. Elle est disponible pour toute personne via WhatsApp, Instagram et
+                téléphone. Les présentes CGU fixent le cadre juridique de VERA et définissent les conditions d'accès et
+                d'utilisation du Service par l'Utilisateur.</p>
+
+            <h3 class="text-xl font-bold text-vera-dark mt-8 mb-3">Accès et Utilisation de VERA</h3>
+
+            <h4 class="text-lg font-semibold text-vera-dark mt-6 mb-2">Accès géographique et frais</h4>
+            <p>VERA est accessible mondialement via téléphone, Instagram et WhatsApp à toute personne. L'utilisation de
+                VERA via WhatsApp et Instagram est gratuite partout dans le monde, sous réserve d'une connexion
+                Internet.</p>
+            <p>Pour les Utilisateurs résidant en France et disposant d'un numéro de téléphone français, l'accès à VERA
+                via un appel téléphonique est gratuit. Toutefois, si un Utilisateur appelle un numéro français depuis
+                l'étranger, des frais supplémentaires peuvent s'appliquer en fonction de la tarification de son
+                opérateur et de sa localisation.</p>
+
+            <h4 class="text-lg font-semibold text-vera-dark mt-6 mb-2">Conditions techniques d'accès</h4>
+            <p>L'accès à VERA se fait via un numéro de téléphone dédié par WhatsApp ou par appel téléphonique, ou par un
+                compte Instagram.</p>
+            <ul class="list-disc pl-6 space-y-2">
+                <li>Pour utiliser VERA via WhatsApp, une connexion Internet et un smartphone sont nécessaires.</li>
+                <li>Pour utiliser VERA via Instagram, une connexion Internet et un compte Instagram sont nécessaires.
+                </li>
+                <li>Pour accéder à VERA via un appel téléphonique, aucune connexion Internet ni smartphone ne sont
+                    requis ; tout téléphone capable de passer des appels peut être utilisé.</li>
+            </ul>
+
+            <h4 class="text-lg font-semibold text-vera-dark mt-6 mb-2">Poser des questions</h4>
+            <p>L'Utilisateur peut poser des questions en envoyant un message Whatsapp, Instagram ou un SMS par téléphone
+                au numéro suivant : <strong>+33 9 74 99 12 95</strong> ; ou en appelant ce même numéro par téléphone.
+            </p>
+
+            <p>Le Service numérique s'appuie sur l'intelligence artificielle d'OpenAI (GPT4) pour générer les réponses
+                aux questions des Utilisateurs. L'Utilisateur est responsable des données qu'il partage avec VERA, et
+                doit s'assurer de ne pas divulguer d'informations personnelles sensibles, ou confidentielles lors de ses
+                interactions avec le Service.</p>
+
+            <p>L'Utilisateur s'engage à ne pas mettre en ligne de contenus ou informations contraires aux dispositions
+                légales et réglementaires en vigueur. L'Utilisateur s'engage à ne pas publier, à quelque endroit que ce
+                soit, de messages racistes, sexistes, injurieux, insultants ou contraires à l'ordre public.</p>
+
+            <h4 class="text-lg font-semibold text-vera-dark mt-6 mb-2">Interdiction des requêtes automatisées</h4>
+            <p>Toute requête automatisée adressée à VERA est interdite, y compris l'utilisation de bots ou d'autres
+                systèmes automatisés visant à interagir avec le service. En cas de non-respect de cette règle, le numéro
+                de téléphone de l'Utilisateur pourra être bloqué sans préavis.</p>
+
+            <h4 class="text-lg font-semibold text-vera-dark mt-6 mb-2">Transparence des sources</h4>
+            <p>Les sources de fact checking utilisées par VERA sont disponibles <a href="http://askvera.org"
+                    class="text-blue-600 hover:underline">ici</a>.</p>
+
+            <h4 class="text-lg font-semibold text-vera-dark mt-6 mb-2">Retours Utilisateurs et signalement</h4>
+            <p>Tout Utilisateur peut signaler une source qu'il n'estime pas fiable ou une réponse qu'il estime erronée
+                via ce formulaire ou en écrivant à LAREPONSE.TECH à cette adresse : <a
+                    href="mailto:contact@lareponse.tech"
+                    class="text-blue-600 hover:underline">contact@lareponse.tech</a>.</p>
+
+            <p>LAREPONSE.TECH s'engage à étudier la demande et à enquêter. Le retrait d'une source interviendra si elle
+                ne répond pas aux critères de fiabilité et de neutralité définis par LAREPONSE.TECH. Pour en savoir
+                plus, l'Utilisateur peut consulter le site <a href="http://askvera.org"
+                    class="text-blue-600 hover:underline">askvera.org</a>.</p>
+
+            <h4 class="text-lg font-semibold text-vera-dark mt-6 mb-2">Utilisation exclusive à la vérification des faits
+                et aux discussions connexes</h4>
+            <p>VERA est strictement réservée à la vérification des faits et aux discussions autour de ces faits. Toute
+                utilisation de VERA à d'autres fins, telles que l'envoi de requêtes non liées à la vérification
+                d'informations ou à des discussions pertinentes sur ces informations, est interdite. L'utilisation de
+                VERA à des fins illégales, commerciales ou frauduleuses est strictement interdite.</p>
+
+            <p>En cas de non-respect de cette règle, LAREPONSE.TECH se réserve le droit de restreindre l'accès au
+                service, notamment par le blocage du numéro de téléphone de l'Utilisateur concerné. En cas d'utilisation
+                de VERA à des fins illégales, commerciales ou frauduleuses, le numéro de l'Utilisateur sera bloqué sans
+                préavis.</p>
+
+            <h3 class="text-xl font-bold text-vera-dark mt-8 mb-3">Force majeure</h3>
+            <p>LAREPONSE.TECH ne pourra être tenue responsable des retards ou manquements dans l'exécution de ses
+                obligations résultant d'événements indépendants de sa volonté, notamment en cas de force majeure, tels
+                que des catastrophes naturelles, des pannes techniques, des interruptions des services de
+                télécommunications, des cyberattaques ou tout autre événement échappant à son contrôle raisonnable.</p>
+
+            <h3 class="text-xl font-bold text-vera-dark mt-8 mb-3">Nullité partielle</h3>
+            <p>Si l'une des dispositions des présentes CGU est jugée nulle ou inapplicable par une juridiction
+                compétente, cela n'affectera en rien la validité ou l'applicabilité des autres dispositions, qui
+                resteront en vigueur.</p>
+
+            <h3 class="text-xl font-bold text-vera-dark mt-8 mb-3">Modifications des CGU</h3>
+            <p>LAREPONSE.TECH se réserve le droit de modifier les présentes CGU à tout moment. Les modifications seront
+                publiées directement sur le site de VERA. En cas de modifications majeures, LAREPONSE.TECH informera les
+                Utilisateurs via ses réseaux sociaux. L'utilisateur est invité à consulter régulièrement les CGU pour se
+                tenir informé des éventuelles modifications.</p>
+
+            <h3 class="text-xl font-bold text-vera-dark mt-8 mb-3">Limites de responsabilité</h3>
+            <p>Bien que LAREPONSE.TECH s'efforce de fournir des informations exactes, les réponses générées par VERA
+                peuvent être erronées, incorrectes ou imprécises en raison du caractère probabiliste des réponses de
+                VERA en tant que système d'intelligence artificielle et de la nature des sources ou de l'interprétation
+                des données.</p>
+
+            <p>LAREPONSE.TECH ne pourra être tenue responsable des décisions prises par l'Utilisateur sur la base des
+                réponses fournies par VERA.</p>
+
+            <p>Les réponses fournies par VERA sont purement informatives et ne doivent pas être interprétées comme des
+                conseils professionnels, comme par exemple dans des domaines tels que le droit, la médecine, la
+                psychologie ou les finances.</p>
+
+            <p>L'Utilisateur est encouragé à vérifier toute information par ses propres moyens et à exercer son propre
+                jugement avant de prendre des décisions basées sur les réponses de VERA.</p>
+
+            <h3 class="text-xl font-bold text-vera-dark mt-8 mb-3">Restrictions d'accès et Blocage</h3>
+            <p>Toute utilisation contraire aux dispositions légales et règlementaires, ainsi qu'aux présentes CGU est
+                interdite. VERA ne peut être utilisé à des fins commerciales. En cas de non-respect, LAREPONSE.TECH se
+                réserve le droit de bloquer immédiatement le numéro de téléphone de l'Utilisateur ou le compte Instagram
+                de l'Utilisateur sans préavis.</p>
+
+            <p>L'Editeur fournit les moyens nécessaires et raisonnables pour assurer un accès continu au Service.
+                LAREPONSE.TECH se réserve le droit de restreindre temporairement l'accès à VERA en cas de trop forte
+                affluence ou dans des situations exceptionnelles pouvant affecter la disponibilité du service.</p>
+
+            <h3 class="text-xl font-bold text-vera-dark mt-8 mb-3">Sécurisation du Service</h3>
+            <p>L'Editeur s'engage à la sécurisation du Service en prenant toutes les mesures nécessaires dans la limite
+                de ses capacités techniques.</p>
+
+            <h3 class="text-xl font-bold text-vera-dark mt-8 mb-3">Propriété intellectuelle</h3>
+            <p>Les Utilisateurs sont libres d'utiliser, de partager ou de reproduire les réponses fournies par VERA. Il
+                n'y a aucune restriction de propriété intellectuelle sur les informations générées par le Service.</p>
+
+            <h3 class="text-xl font-bold text-vera-dark mt-8 mb-3">Litiges et Juridiction</h3>
+            <p>Les présentes CGU sont régies par la législation française. En cas de litige, les tribunaux compétents
+                seront ceux de Paris.</p>
+
+            <h3 class="text-xl font-bold text-vera-dark mt-8 mb-3">Contact</h3>
+            <p>Pour toute question relative aux présentes CGU, veuillez contacter LAREPONSE.TECH à l'adresse suivante :
+                <a href="mailto:dpo@lareponse.tech" class="text-blue-600 hover:underline">dpo@lareponse.tech</a></p>
         </div>
     </div>
 </div>

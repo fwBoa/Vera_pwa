@@ -59,6 +59,10 @@
         background-color: var(--vera-blue);
     }
 
+    .bg-vera-dark {
+        background-color: var(--vera-dark);
+    }
+
     .text-vera-dark {
         color: var(--vera-dark);
     }
