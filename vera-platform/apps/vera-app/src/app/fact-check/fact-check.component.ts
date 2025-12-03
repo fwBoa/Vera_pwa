@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { FactCheckService } from '../services/fact-check.service';
 import { AuthService } from '../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'app-fact-check',
@@ -253,7 +254,7 @@ export class FactCheckComponent implements OnDestroy {
 
     private async fetchMetadata(url: string) {
         try {
-            const response = await fetch(`http://localhost:3000/api/metadata?url=${encodeURIComponent(url)}`);
+            const response = await fetch(`${environment.apiUrl}/metadata?url=${encodeURIComponent(url)}`);
             const metadata = await response.json();
 
             if (metadata.title || metadata.image) {

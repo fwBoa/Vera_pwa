@@ -6,11 +6,13 @@ export interface FactCheckRequest {
     query: string;
 }
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
     providedIn: 'root'
 })
 export class FactCheckService {
-    private readonly API_URL = '/api/analyze';
+    private readonly API_URL = `${environment.apiUrl}/analyze`;
 
     /**
      * Send fact-check query and return streaming response as Observable
