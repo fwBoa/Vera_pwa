@@ -77,8 +77,7 @@ export class GeminiService {
 
                 } catch (ytError: any) {
                     console.warn('[GeminiService] Failed to fetch YouTube transcript:', ytError.message);
-                    console.log('[GeminiService] Falling back to standard page analysis...');
-                    // Fallback to standard axios if transcript fails (e.g. no captions)
+                    throw new Error(`Impossible d'analyser cette vidéo YouTube. Vérifiez qu'elle possède des sous-titres (CC) accessibles. Erreur: ${ytError.message}`);
                 }
             }
 
