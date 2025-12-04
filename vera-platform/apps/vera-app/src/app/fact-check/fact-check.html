@@ -39,7 +39,7 @@
     <main
         class="relative z-10 flex-grow flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center w-full pb-40 md:pb-0">
         <!-- Hero Section (Hidden when showing results) -->
-        <header *ngIf="!result" class="mb-8 sm:mb-12 animate-fade-in-up w-full max-w-4xl">
+        <header *ngIf="!result && !isLoading" class="mb-8 sm:mb-12 animate-fade-in-up w-full max-w-4xl">
             <h1
                 class="text-3xl sm:text-5xl lg:text-6xl font-['Playfair_Display'] text-vera-dark mb-4 sm:mb-6 leading-tight tracking-tight">
                 Vérifie instantanément n'importe quelle info !
@@ -50,9 +50,9 @@
         </header>
 
         <!-- Search Input Section -->
-        <section *ngIf="!result" class="w-full max-w-3xl mx-auto relative z-10">
+        <section class="w-full max-w-3xl mx-auto relative z-10">
             <!-- File Preview Card (Desktop Only) -->
-            <div *ngIf="selectedFile" class="mb-4 animate-fade-in hidden md:block">
+            <div *ngIf="selectedFile && !result" class="mb-4 animate-fade-in hidden md:block">
                 <div
                     class="bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-gray-200 max-w-md mx-auto">
                     <div class="flex items-center justify-between">
@@ -81,10 +81,10 @@
                 </div>
             </div>
 
-            <form [formGroup]="factCheckForm" (ngSubmit)="onSubmit()" class="w-full group relative">
+            <form [formGroup]="factCheckForm" (ngSubmit)="onSubmit()" class="w-full group">
 
                 <!-- DESKTOP INPUT (Hidden on mobile, visible on md+) -->
-                <div
+                <div *ngIf="!result"
                     class="hidden md:flex relative items-center w-full bg-[#2D2D2D] rounded-full shadow-2xl overflow-visible h-16">
                     <input type="file" id="fileInputDesktop" class="hidden" (change)="onFileSelected($event)"
                         accept="image/*,audio/*,video/*">
@@ -120,24 +120,15 @@
                     <!-- Submit Button -->
                     <button type="submit" [disabled]="(!factCheckForm.valid && !pendingFile) || isLoading"
                         class="mr-2 w-12 h-12 bg-[#C5E898] rounded-lg flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 hover:bg-[#b4d685] transition-colors">
-                        <svg *ngIf="!isLoading" class="w-6 h-6 text-vera-dark" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-vera-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-                        </svg>
-                        <svg *ngIf="isLoading" class="animate-spin h-6 w-6 text-vera-dark"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                            </circle>
-                            <path class="opacity-75" fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                            </path>
                         </svg>
                     </button>
                 </div>
 
                 <!-- MOBILE INPUT (Visible on mobile, hidden on md+) -->
-                <div
+                <div *ngIf="!result"
                     class="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#F3F0E7] via-[#F3F0E7] to-transparent z-50 pb-6">
                     <div class="flex items-end gap-3 max-w-3xl mx-auto">
                         <input type="file" id="fileInputMobile" class="hidden" (change)="onFileSelected($event)"
@@ -204,18 +195,10 @@
                                 <!-- Submit Arrow (Only if valid or file) -->
                                 <button *ngIf="factCheckForm.valid || pendingFile" type="submit"
                                     class="ml-2 w-10 h-10 bg-[#C5E898] rounded-xl flex items-center justify-center flex-shrink-0 animate-fade-in">
-                                    <svg *ngIf="!isLoading" class="w-5 h-5 text-vera-dark" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-vera-dark" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-                                    </svg>
-                                    <svg *ngIf="isLoading" class="animate-spin h-5 w-5 text-vera-dark"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                            stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor"
-                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                        </path>
                                     </svg>
                                 </button>
                             </div>
@@ -289,7 +272,7 @@
             <div class="mt-8 flex justify-center">
                 <button (click)="clearResult()"
                     class="bg-[#C5E898] text-vera-dark font-medium px-6 py-3 rounded-full shadow-md hover:bg-[#b4d685] transition-colors text-sm sm:text-base">
-                    ✨ Nouvelle recherche
+                    Nouvelle recherche
                 </button>
             </div>
         </section>
