@@ -51,52 +51,13 @@ export class GeminiService {
     }
 
     /**
-     * Analyze a URL by fetching its content and processing it with Gemini
+     * Analyze a URL directly with Gemini (no scraping needed)
      */
     async analyzeUrl(url: string): Promise<string> {
         try {
-            console.log(`[GeminiService] Fetching URL: ${url}`);
+            console.log(`[GeminiService] Analyzing URL with Gemini: ${url}`);
 
-            // Use axios to fetch the HTML content
-            const axios = require('axios');
-            const response = await axios.get(url, {
-                headers: {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-                },
-                timeout: 30000,
-                maxRedirects: 5
-            });
-
-            const html = response.data;
-
-            // Basic HTML cleaning - remove scripts, styles, and extract text
-            // This is a simple regex-based approach that works reasonably well
-            let cleanText = html
-                // Remove script tags and their content
-                .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-                // Remove style tags and their content
-                .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
-                // Remove HTML comments
-                .replace(/<!--[\s\S]*?-->/g, '')
-                // Remove all HTML tags
-                .replace(/<[^>]+>/g, ' ')
-                // Decode common HTML entities
-                .replace(/&nbsp;/g, ' ')
-                .replace(/&amp;/g, '&')
-                .replace(/&lt;/g, '<')
-                .replace(/&gt;/g, '>')
-                .replace(/&quot;/g, '"')
-                .replace(/&#39;/g, "'")
-                // Normalize whitespace
-                .replace(/\s+/g, ' ')
-                .trim();
-
-            console.log(`[GeminiService] Extracted ${cleanText.length} characters. Sending to Gemini for analysis...`);
-
-            // Limit to avoid token limits
-            const contentToAnalyze = cleanText.substring(0, 30000);
-
-            const prompt = `Voici le contenu d'une page web. Extrais les faits principaux, le contexte et les affirmations clés pour une vérification des faits (fact-checking). Ignore le bruit (menus, pubs, etc.). \n\nContenu:\n${contentToAnalyze}`;
+            const prompt = `Analyse cette page web pour du fact-checking. Extrais les faits principaux, le contexte et les affirmations clés. Ignore les éléments non-pertinents (menus, publicités, etc.).\n\nURL: ${url}`;
 
             const result = await this.model.generateContent(prompt);
             const text = result.response.text();
