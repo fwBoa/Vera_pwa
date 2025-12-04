@@ -28,208 +28,11 @@
                 </svg>
             </button>
 
-            <button type="button" (click)="navigateToHowItWorks()"
-                class="bg-vera-dark text-white font-medium px-4 sm:px-6 py-2 rounded-full shadow-sm text-xs sm:text-base">
-                Comment ça marche ?
-            </button>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main
-        class="relative z-10 flex-grow flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center w-full pb-40 md:pb-0">
-        <!-- Hero Section (Hidden when showing results) -->
-        <header *ngIf="!result && !isLoading" class="mb-8 sm:mb-12 animate-fade-in-up w-full max-w-4xl">
-            <h1
-                class="text-3xl sm:text-5xl lg:text-6xl font-['Playfair_Display'] text-vera-dark mb-4 sm:mb-6 leading-tight tracking-tight">
-                Vérifie instantanément n'importe quelle info !
-            </h1>
-            <p class="text-sm sm:text-lg text-vera-dark/80 max-w-3xl mx-auto font-light leading-relaxed px-2">
-                Texte, image, vidéo, audio, URL : Vera te dit en 3 secondes si c'est vrai ou faux, sources à l'appui.
-            </p>
-        </header>
-
-        <!-- Loading State (Spinner only) -->
-        <div *ngIf="isLoading && !result" class="flex items-center justify-center py-16 animate-fade-in">
-            <div
-                class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#C5E898] flex items-center justify-center animate-pulse">
-                <svg class="w-8 h-8 sm:w-10 sm:h-10 text-vera-dark animate-spin" viewBox="0 0 24 24" fill="none">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
-                    <path class="opacity-75" fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                    </path>
+            <button type="button" (click)="navigateToHowItWorks()" <path fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                clip-rule="evenodd"></path>
                 </svg>
-            </div>
-        </div>
-
-        <!-- Search Input Section -->
-        <section *ngIf="!isLoading || result" class="w-full max-w-3xl mx-auto relative z-10">
-            <!-- File Preview Card (Desktop Only) -->
-            <div *ngIf="selectedFile && !result" class="mb-4 animate-fade-in hidden md:block">
-                <div
-                    class="bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-gray-200 max-w-md mx-auto">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3 flex-1 min-w-0">
-                            <div
-                                class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg class="w-5 h-5 text-vera-dark" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
-                                    </path>
-                                </svg>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium text-vera-dark truncate">{{ selectedFile.name }}</p>
-                                <p class="text-xs text-vera-gray">{{ selectedFile.type }}</p>
-                            </div>
-                        </div>
-                        <button type="button" (click)="removeFile()" class="ml-2 text-gray-400 flex-shrink-0">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <form [formGroup]="factCheckForm" (ngSubmit)="onSubmit()" class="w-full group">
-
-                <!-- DESKTOP INPUT (Hidden on mobile, visible on md+) -->
-                <div *ngIf="!result"
-                    class="hidden md:flex relative items-center w-full bg-[#2D2D2D] rounded-full shadow-2xl overflow-visible h-16">
-                    <input type="file" id="fileInputDesktop" class="hidden" (change)="onFileSelected($event)"
-                        accept="image/*,audio/*,video/*">
-
-                    <!-- File Upload Button -->
-                    <button type="button" (click)="triggerFileUpload()"
-                        class="pl-6 pr-4 text-white focus:outline-none flex-shrink-0 hover:text-gray-300 transition-colors">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
-                            </path>
-                        </svg>
-                    </button>
-
-                    <!-- Text Input -->
-                    <input type="text" formControlName="query"
-                        [placeholder]="isRecording ? 'Je vous écoute...' : 'La vérité, en un clic'" autocomplete="off"
-                        class="w-full py-5 bg-transparent text-white placeholder-gray-400 text-lg border-none focus:ring-0 outline-none truncate font-light transition-all duration-300" />
-
-                    <!-- Microphone Button -->
-                    <button type="button" (click)="toggleRecording()" [class.text-red-500]="isRecording"
-                        [class.animate-ripple]="isRecording"
-                        class="px-4 text-gray-400 focus:outline-none flex-shrink-0 hover:text-white transition-colors relative">
-                        <svg *ngIf="!isRecording" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z">
-                            </path>
-                        </svg>
-                        <svg *ngIf="isRecording" class="w-6 h-6 relative z-10" fill="currentColor" viewBox="0 0 24 24">
-                            <rect x="6" y="6" width="12" height="12" rx="2" />
-                        </svg>
-                    </button>
-
-                    <!-- Submit Button -->
-                    <button type="submit" [disabled]="(!factCheckForm.valid && !pendingFile) || isLoading"
-                        class="mr-2 w-10 h-10 bg-[#C5E898] rounded-lg flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0 hover:bg-[#b4d685] transition-colors">
-                        <svg class="w-5 h-5 text-vera-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- MOBILE INPUT (Visible on mobile, hidden on md+) -->
-                <div *ngIf="!result"
-                    class="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#F3F0E7] via-[#F3F0E7] to-transparent z-50 pb-6">
-                    <div class="flex items-end gap-3 max-w-3xl mx-auto">
-                        <input type="file" id="fileInputMobile" class="hidden" (change)="onFileSelected($event)"
-                            accept="image/*,audio/*,video/*">
-
-                        <!-- Plus Button -->
-                        <button type="button" (click)="triggerFileUpload()"
-                            class="w-12 h-12 bg-[#2D2D2D] rounded-2xl flex items-center justify-center text-white shrink-0 shadow-lg active:scale-95 transition-transform">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 4v16m8-8H4">
-                                </path>
-                            </svg>
-                        </button>
-
-                        <!-- Input Container -->
-                        <div class="flex-grow bg-[#2D2D2D] rounded-2xl shadow-lg flex flex-col overflow-hidden">
-                            <!-- File Preview (Inside Input on Mobile) -->
-                            <div *ngIf="selectedFile"
-                                class="p-3 bg-white/5 border-b border-white/10 flex justify-between items-center animate-fade-in">
-                                <div class="flex items-center space-x-3 min-w-0">
-                                    <div
-                                        class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
-                                            </path>
-                                        </svg>
-                                    </div>
-                                    <span class="text-sm text-white truncate">{{ selectedFile.name }}</span>
-                                </div>
-                                <button type="button" (click)="removeFile()" class="text-gray-400 hover:text-white">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M6 18L18 6M6 6l12 12"></path>
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <!-- Input Field Row -->
-                            <div class="flex items-center px-4 py-3">
-                                <input type="text" formControlName="query"
-                                    [placeholder]="isRecording ? 'Je vous écoute...' : 'La vérité, en un clic...'"
-                                    autocomplete="off"
-                                    class="w-full py-1 bg-transparent text-white placeholder-gray-400 text-base border-none focus:ring-0 outline-none font-light" />
-
-                                <!-- Mic Button -->
-                                <button type="button" (click)="toggleRecording()" [class.text-red-500]="isRecording"
-                                    [class.animate-ripple]="isRecording"
-                                    class="ml-2 p-2 text-gray-400 focus:outline-none flex-shrink-0 hover:text-white transition-colors relative">
-                                    <svg *ngIf="!isRecording" class="w-6 h-6" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z">
-                                        </path>
-                                    </svg>
-                                    <svg *ngIf="isRecording" class="w-6 h-6 relative z-10" fill="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <rect x="6" y="6" width="12" height="12" rx="2" />
-                                    </svg>
-                                </button>
-
-                                <!-- Submit Arrow (Only if valid or file) -->
-                                <button *ngIf="factCheckForm.valid || pendingFile" type="submit"
-                                    class="ml-2 w-10 h-10 bg-[#C5E898] rounded-xl flex items-center justify-center flex-shrink-0 animate-fade-in">
-                                    <svg class="w-5 h-5 text-vera-dark" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </section>
-
-        <!-- Error Message -->
-        <div *ngIf="errorMessage"
-            class="mt-8 max-w-2xl mx-auto bg-red-50 border border-red-200 rounded-xl p-4 flex items-center text-left animate-fade-in shadow-lg">
-            <svg class="w-5 h-5 text-red-600 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                    clip-rule="evenodd"></path>
-            </svg>
-            <span class="text-red-800 text-sm sm:text-base">{{ errorMessage }}</span>
+                <span class="text-red-800 text-sm sm:text-base">{{ errorMessage }}</span>
         </div>
 
         <!-- Results Section -->
@@ -289,15 +92,15 @@
                 </button>
             </div>
         </section>
-    </main>
+        </main>
 
-    <!-- Footer -->
-    <footer class="w-full py-4 text-center bg-[#C5E898] z-10 mt-auto hidden md:block" role="contentinfo">
-        <p class="text-vera-dark text-xs sm:text-sm font-medium">© 2025 Vera. All rights reserved.
-            <span class="mx-2">|</span>
-            <a routerLink="/legal" class="hover:underline">Mentions Légales</a>
-            <span class="mx-2">|</span>
-            <a routerLink="/privacy" class="hover:underline">Politique de Confidentialité</a>
-        </p>
-    </footer>
+        <!-- Footer -->
+        <footer class="w-full py-4 text-center bg-[#C5E898] z-10 mt-auto hidden md:block" role="contentinfo">
+            <p class="text-vera-dark text-xs sm:text-sm font-medium">© 2025 Vera. All rights reserved.
+                <span class="mx-2">|</span>
+                <a routerLink="/legal" class="hover:underline">Mentions Légales</a>
+                <span class="mx-2">|</span>
+                <a routerLink="/privacy" class="hover:underline">Politique de Confidentialité</a>
+            </p>
+        </footer>
 </div>
