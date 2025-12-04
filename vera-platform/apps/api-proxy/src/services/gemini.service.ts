@@ -51,40 +51,52 @@ export class GeminiService {
     }
 
     /**
-     * Analyze a URL by scraping its content and processing it with Gemini
+     * Analyze a URL by fetching its content and processing it with Gemini
      */
     async analyzeUrl(url: string): Promise<string> {
         try {
-            console.log(`[GeminiService] Scraping URL: ${url}`);
+            console.log(`[GeminiService] Fetching URL: ${url}`);
 
-            // Lazy load puppeteer to avoid startup overhead if not used
-            const puppeteer = require('puppeteer');
-
-            const browser = await puppeteer.launch({
-                headless: 'new',
-                args: ['--no-sandbox', '--disable-setuid-sandbox']
+            // Use axios to fetch the HTML content
+            const axios = require('axios');
+            const response = await axios.get(url, {
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                },
+                timeout: 30000,
+                maxRedirects: 5
             });
 
-            const page = await browser.newPage();
+            const html = response.data;
 
-            // Set a realistic user agent
-            await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+            // Basic HTML cleaning - remove scripts, styles, and extract text
+            // This is a simple regex-based approach that works reasonably well
+            let cleanText = html
+                // Remove script tags and their content
+                .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+                // Remove style tags and their content
+                .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+                // Remove HTML comments
+                .replace(/<!--[\s\S]*?-->/g, '')
+                // Remove all HTML tags
+                .replace(/<[^>]+>/g, ' ')
+                // Decode common HTML entities
+                .replace(/&nbsp;/g, ' ')
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'")
+                // Normalize whitespace
+                .replace(/\s+/g, ' ')
+                .trim();
 
-            await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+            console.log(`[GeminiService] Extracted ${cleanText.length} characters. Sending to Gemini for analysis...`);
 
-            // Extract main text content
-            const pageText = await page.evaluate(() => {
-                // Remove scripts, styles, and other non-content elements
-                const scripts = document.querySelectorAll('script, style, nav, footer, iframe, noscript');
-                scripts.forEach(script => script.remove());
-                return document.body.innerText;
-            });
+            // Limit to avoid token limits
+            const contentToAnalyze = cleanText.substring(0, 30000);
 
-            await browser.close();
-
-            console.log(`[GeminiService] Scraped ${pageText.length} characters. Sending to Gemini for summarization...`);
-
-            const prompt = `Voici le contenu brut d'une page web. Extrais les faits principaux, le contexte et les affirmations clés pour une vérification des faits (fact-checking). Ignore le bruit (menus, pubs). \n\nContenu:\n${pageText.substring(0, 30000)}`; // Limit context window
+            const prompt = `Voici le contenu d'une page web. Extrais les faits principaux, le contexte et les affirmations clés pour une vérification des faits (fact-checking). Ignore le bruit (menus, pubs, etc.). \n\nContenu:\n${contentToAnalyze}`;
 
             const result = await this.model.generateContent(prompt);
             const text = result.response.text();
