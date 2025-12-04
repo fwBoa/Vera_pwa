@@ -223,14 +223,17 @@ export class FactCheckComponent implements OnDestroy {
                     // Append each chunk to the result
                     this.result += chunk;
                     this.extractLinks(this.result);
+                    this.cd.detectChanges(); // Force update
                 },
                 error: (err) => {
                     this.isLoading = false;
                     this.errorMessage = err.message || 'An error occurred';
                     console.error('Fact-check error:', err);
+                    this.cd.detectChanges(); // Force update
                 },
                 complete: () => {
                     this.isLoading = false;
+                    this.cd.detectChanges(); // Force update
                 },
             });
     }
@@ -264,6 +267,15 @@ export class FactCheckComponent implements OnDestroy {
             }
         } catch (error) {
             console.error('Error fetching metadata for', url, error);
+        }
+    }
+
+    stopAnalysis() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+            this.isLoading = false;
+            this.result += '\n\n[Analyse arrêtée par l\'utilisateur]';
+            this.cd.detectChanges(); // Force update
         }
     }
 
