@@ -52,12 +52,37 @@ export class GeminiService {
 
     /**
      * Analyze a URL by fetching its content and processing it with Gemini
+     * Handles YouTube videos specifically by fetching transcripts
      */
     async analyzeUrl(url: string): Promise<string> {
         try {
             console.log(`[GeminiService] Fetching URL: ${url}`);
 
-            // Use axios to fetch the HTML content
+            // Check if it's a YouTube URL
+            const isYouTube = url.includes('youtube.com') || url.includes('youtu.be');
+
+            if (isYouTube) {
+                console.log('[GeminiService] Detected YouTube URL, attempting to fetch transcript...');
+                try {
+                    const { YoutubeTranscript } = require('youtube-transcript');
+                    const transcriptItems = await YoutubeTranscript.fetchTranscript(url);
+
+                    const transcriptText = transcriptItems.map((item: any) => item.text).join(' ');
+                    console.log(`[GeminiService] Fetched transcript (${transcriptText.length} chars). Sending to Gemini...`);
+
+                    const prompt = `Voici la transcription d'une vidéo YouTube. Analyse-la pour du fact-checking. Extrais les faits principaux, le contexte et les affirmations clés.\n\nTranscription:\n${transcriptText.substring(0, 30000)}`;
+
+                    const result = await this.model.generateContent(prompt);
+                    return result.response.text();
+
+                } catch (ytError: any) {
+                    console.warn('[GeminiService] Failed to fetch YouTube transcript:', ytError.message);
+                    console.log('[GeminiService] Falling back to standard page analysis...');
+                    // Fallback to standard axios if transcript fails (e.g. no captions)
+                }
+            }
+
+            // Standard Axios fetching for non-YouTube or fallback
             const axios = require('axios');
             const response = await axios.get(url, {
                 headers: {
@@ -69,40 +94,28 @@ export class GeminiService {
 
             const html = response.data;
 
-            // Basic HTML cleaning - remove scripts, styles, and extract text
-            // This is a simple regex-based approach that works reasonably well
+            // Basic HTML cleaning
             let cleanText = html
-                // Remove script tags and their content
                 .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-                // Remove style tags and their content
                 .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
-                // Remove HTML comments
                 .replace(/<!--[\s\S]*?-->/g, '')
-                // Remove all HTML tags
                 .replace(/<[^>]+>/g, ' ')
-                // Decode common HTML entities
                 .replace(/&nbsp;/g, ' ')
                 .replace(/&amp;/g, '&')
                 .replace(/&lt;/g, '<')
                 .replace(/&gt;/g, '>')
                 .replace(/&quot;/g, '"')
                 .replace(/&#39;/g, "'")
-                // Normalize whitespace
                 .replace(/\s+/g, ' ')
                 .trim();
 
             console.log(`[GeminiService] Extracted ${cleanText.length} characters. Sending to Gemini for analysis...`);
 
-            // Limit to avoid token limits
             const contentToAnalyze = cleanText.substring(0, 30000);
-
-            const prompt = `Voici le contenu d'une page web. Extrais les faits principaux, le contexte et les affirmations clés pour une vérification des faits (fact-checking). Ignore le bruit (menus, pubs, etc.). \n\nContenu:\n${contentToAnalyze}`;
+            const prompt = `Voici le contenu d'une page web. Extrais les faits principaux, le contexte et les affirmations clés pour du fact-checking. Ignore le bruit.\n\nContenu:\n${contentToAnalyze}`;
 
             const result = await this.model.generateContent(prompt);
-            const text = result.response.text();
-
-            console.log('[GeminiService] URL analysis complete');
-            return text;
+            return result.response.text();
 
         } catch (error: any) {
             console.error('[GeminiService] Error analyzing URL:', error);
